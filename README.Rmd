@@ -7,12 +7,12 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
+  fig.path = "figures/README-",
   out.width = "80%"
 )
 ```
 
-## Ejemplos en español del paquete `speech` <img src='logo.png' align="right" height="180" />
+## Ejemplos en español del paquete `speech` <img src='man/figures/logo.png' align="right" height="180" />
 
 _Nicolas Schmidt, Diego Lujan, Juan Andres Moraes_
 
