@@ -17,13 +17,16 @@ knitr::opts_chunk$set(
 _Nicolas Schmidt, Diego Lujan, Juan Andres Moraes_
 
 
-### Description
+### Descripción
 
-Converts the floor speeches of Uruguayan legislators, extracted from the parliamentary minutes, to tidy data.frame where each observation is the intervention of a single legislator.
+El paquete `speech` permite convertir diarios de sesión del parlamento uguguayo en formato PDF a bases de datos ordenadas en la que cada fila es la intervencion de cada uno de los legisladores que intervino en esa sesión.
 
 
+### Ejemplo
 
-### Example
+Es importante tener presente que la lectura del texto de los archivos PDF de los diarios de sesion no es siempre clara. Muchos de los diarios de sesión que están en la página [web](https://parlamento.gub.uy/documentosyleyes/documentos/diarios-de-sesion) del parlamento están escaneados. 
+
+En algunas ocasiones antes de convertir el documento PDF que contiene un diario de sesión mediante el uso de la función `speech_build()` va a ser necesario pasar el PDF por un OCR (reconocimiento óptico de caracteres por su sigla en ingles).
 
 ```{r example}
 library(speech)
