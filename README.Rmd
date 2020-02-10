@@ -29,13 +29,68 @@ Es importante tener presente que la lectura del texto de los archivos PDF de los
 En algunas ocasiones antes de convertir el documento PDF que contiene un diario de sesión mediante el uso de la función `speech_build()` va a ser necesario pasar el PDF por un OCR (reconocimiento óptico de caracteres por su sigla en ingles).
 
 ```{r example}
-library(speech)
-url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/comisionpermanente/6084/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
-text <- speech::speech_build(file = url)
-text
+## vamos a trabajar con el primer diario de sesión de la Asamblea General desde la 
+## reapertura democrática: 15 de febrero de 1985.
 
+library(speech)
+url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/asambleageneral/1/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
+text <- speech::speech_build(file = url)
+print(text, n = nrow(text))
+```
+
+Si bien la base de datos `text` luce bien se aprecian varios problemas que son producto de la lectura del documento. Este documento está escaneado y hay caracteres que no se leen corectamente: legislador 7 y 8 parecen ser el mismo pero al compilar los datos no se van a juntar ya que no son iguales; el legislador 25 y 26 es el mismo solo que en el primer caso hay un espacio en medio del apellido de uno de los legisladores. Tambien se aprecia que hay un legislador que no es llegislador y que no debería aparecer: 'PIRIESIDENTE' '(fila 19).
+
+
+Comencemos por el ultimo problema. La función `speech_build()` tiene un argumento que permite eliminar legisladores: `rm.error.leg`
+
+```{r }
+text <- speech::speech_build(file = url, rm.error.leg = "PIRIESIDENTE")
+
+## verificamos que ya no esté
+
+print(text, n = nrow(text))
+```
+
+El paquete `speech` tiene una función que permite chequear los nombres de los legisaldores (`speech_check()`) y otra fundción que permite modificar fácilmente los nombres de los legisladores: `speech_legis_replace`.
+
+Vamos a chequear los nombres:
+```{r }
+speech_check(text)
+```
+
+Ahora vamos a cambiar los nombres que están mal:
+```{r }
+text <- speech_legis_replace(text, old = "FElRREIRA Se",  new = "FERREIRA")
+text <- speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
+text <- speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
+
+## volvemos a verificar
+speech_check(text)
+```
+
+```{r, echo = FALSE }
+text <- as.data.frame(text)
+```
+Los problemas no se acaban acá. Exploremos los discursos propiamente dichos:
+
+```{r }
+text$speech[1]
+text$speech[2]
 
 ```
+
+```{r }
+text <- speech::speech_build(file = url, 
+                             rm.error.leg = "PIRIESIDENTE", 
+                             add.error.sir = 'SEN\"OR')
+
+
+text$speech[2]
+```
+
+
+
+
 
 
 
