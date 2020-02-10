@@ -1,5 +1,5 @@
 
-## Ejemplos en español del paquete `speech` <img src='logo.png' align="right" height="180" />
+## Ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
 
 *Nicolas Schmidt, Diego Lujan, Juan Andres Moraes*
 
