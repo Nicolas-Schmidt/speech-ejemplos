@@ -1,5 +1,5 @@
 
-## Ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
+## Manual y ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
 
 *Nicolas Schmidt, Diego Lujan, Juan Andres Moraes*
 
@@ -9,6 +9,18 @@ El paquete `speech` permite convertir diarios de sesión del parlamento
 uguguayo en formato PDF a bases de datos ordenadas en la que cada fila
 es la intervencion de cada uno de los legisladores que intervino en esa
 sesión.
+
+##### Característias
+
+  - Este paquete construye todas las intervenciones por sesión de cada
+    uno de los legisladores. Esto quiere decir que todas las
+    intervenciones de los presidentes, secretarios, ministros o personas
+    invitadas no identificadas como legisladores no van a ser
+    recuperadas por el algoritmo. Muchas veces puede suceder que el
+    algoritmo no identifique claramente alguna de estas intervenciones.
+    En esos casos la función con la que se pasa de un `.pdf` a un
+    `data.frame` tiene un argumento que permite incorporar esos casos
+    que se desean eliminar.
 
 ### Ejemplo
 
