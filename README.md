@@ -1,7 +1,7 @@
 
 ## Manual y ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
 
-*Nicolas Schmidt, Diego Lujan, Juan Andres Moraes*
+*Nicolás Schmidt, Diego Luján, Juan Andrés Moraes*
 
 ### Descripción
 
