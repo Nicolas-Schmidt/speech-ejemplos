@@ -19,8 +19,9 @@ sesión.
     recuperadas por el algoritmo. Muchas veces puede suceder que el
     algoritmo no identifique claramente alguna de estas intervenciones.
     En esos casos la función con la que se pasa de un `.pdf` a un
-    `data.frame` tiene un argumento que permite incorporar esos casos
-    que se desean eliminar.
+    `data.frame` (`speech_build()`) tiene un argumento
+    (`rm.error.leg`)que permite incorporar esos casos que se desean
+    eliminar y no fueron identificados por la función.
 
 ### Ejemplo
 
