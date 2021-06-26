@@ -104,8 +104,7 @@ Ahora vamos a cambiar los nombres que están mal:
 text <- speech_legis_replace(text, old = "FElRREIRA Señ",  new = "FERREIRA")
 text <- speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
 text <- speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
-
-
+text <- speech_legis_replace(text, old = "CORDOSO",  new = "CARDOSO")
 ```
 Con esta función lo que hacemos es modificar la base construida (es decir el objeto `text`) por eso debemos sobrescribirla.
 
@@ -115,28 +114,27 @@ Ahora debemos chequear que los cambios se realizaron de manera correcta:
 speech_check(text)
 ```
 
+Una vez que consideramos que ya no hay más cambios por realizar podemos recompilar el diario de sesión. Tenemos que recompilarlo ya que hemos modificado la compilacion inicial.
 
 
-
-```{r, echo = FALSE }
-text <- as.data.frame(text)
-```
-Los problemas no se acaban acá. Exploremos los discursos propiamente dichos:
-
-```{r }
-text$speech[1]
-text$speech[2]
+```{r}
+text2 <- speech_recompiler(tidy_speech = text)
+print(text2, n = nrow(text2))
 
 ```
+Una vez que tenemos la base final (`text2`) ahora podemos proceder a usar el paquete [`puy`]() que permite agregar la etiqueta partidaria a cada legislador.
 
-```{r }
-text <- speech::speech_build(file = url, 
-                             rm.error.leg = "PIRIESIDENTE", 
-                             add.error.sir = 'SEN\"OR')
+```{r}
+library(puy)
 
-
-text$speech[2]
+datos <- add_party(text2)
+datos
 ```
+
+
+
+
+
 
 
 
