@@ -88,6 +88,15 @@ Una vez instalado el paquete debe cargarlo en la sesión de trabajo:
 library(speech)
 ```
 
+Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de
+complejidad en su procesamiento:
+
+  - El diario de sesión de la Asamblea General de la reapertura
+    democrática: 15 de febrero de 1985.
+  - Un diario de sesión sobre la creación de los consejos de salarios en
+    1941.
+  - Un diario de sesión actual.
+
 #### Ejemplo 1.
 
 ###### El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
@@ -312,8 +321,8 @@ print(text2, n = nrow(text2))
 ```
 
 Una vez que tenemos la base final (`text2`) ahora podemos proceder a
-usar el paquete [`puy`]() que permite agregar la etiqueta partidaria a
-cada legislador.
+usar el paquete [`puy`]() que permite agregar la etiqueta partidaria y
+el nombre completo de cada legislador.
 
 ``` r
 library(puy)
@@ -323,14 +332,141 @@ datos
 #> # A tibble: 9 x 12
 #>   legislator legislature chamber date       id    speech   sex legislator2 party
 #>   <chr>            <int> <chr>   <date>     <chr> <chr>  <dbl> <chr>       <chr>
-#> 1 CARDOSO             42 ASAMBL~ 1985-02-15 CARD~ "SEÑO~     1 CARDOSO, J~ Fren~
-#> 2 CIGLIUTI            42 ASAMBL~ 1985-02-15 CIGL~ "SEÑO~     1 CIGLIUTI, ~ Part~
-#> 3 FERREIRA            42 ASAMBL~ 1985-02-15 FERR~ "SEÑO~     1 FERREIRA, ~ Part~
-#> 4 PAZ AGUIR~          42 ASAMBL~ 1985-02-15 PAZ ~ "SEÑO~     1 PAZ AGUIRR~ Part~
-#> 5 PEREYRA             42 ASAMBL~ 1985-02-15 PERE~ "SEÑO~     1 PEREYRA, C~ Part~
-#> 6 RODRIGUEZ~          42 ASAMBL~ 1985-02-15 RODR~ "SEÑO~     1 RODRIGUEZ ~ Fren~
-#> 7 ROSSI PAS~          42 ASAMBL~ 1985-02-15 ROSS~ "SEÑO~     1 ROSSI PASS~ Unio~
-#> 8 TOURNE              42 ASAMBL~ 1985-02-15 TOUR~ "SEÑO~     1 TOURNE, Ur~ Part~
-#> 9 VAILLANT            42 ASAMBL~ 1985-02-15 VAIL~ "SEÑO~     1 VAILLANT, ~ Part~
-#> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <int>
+#> 1 CARDOSO             42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 CARDOSO, J~ Fren~
+#> 2 CIGLIUTI            42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 CIGLIUTI, ~ Part~
+#> 3 FERREIRA            42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 FERREIRA, ~ Part~
+#> 4 PAZ AGUIR~          42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 PAZ AGUIRR~ Part~
+#> 5 PEREYRA             42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 PEREYRA, C~ Part~
+#> 6 RODRIGUEZ~          42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 RODRIGUEZ ~ Fren~
+#> 7 ROSSI PAS~          42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 ROSSI PASS~ Unio~
+#> 8 TOURNE              42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 TOURNE, Ur~ Part~
+#> 9 VAILLANT            42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 VAILLANT, ~ Part~
+#> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <dbl>
 ```
+
+#### Ejemplo 3.
+
+Tomamos un diario de sesión reciente y aplicamos el mismo criterio que
+con los diarios anteriores: usamos `speech_build()` sin compilar para
+chequear que los nombres de los legisladores sean correctos para luego
+compilar.
+
+``` r
+url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/comisionpermanente/6084/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
+
+text <- speech::speech_build(file = url)
+
+print(text, n = nrow(text))
+#> # A tibble: 24 x 7
+#>    legislator speech          chamber   date       legislature id            sex
+#>    <chr>      <chr>           <chr>     <date>           <int> <chr>       <dbl>
+#>  1 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  2 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  3 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
+#>  4 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
+#>  5 GOÑI       SEÑOR GOÑI. Pi~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  6 GOÑI       SEÑOR GOÑI. El~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  7 MAHIA      SEÑOR MAHIA. P~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  8 MAHIA      SEÑOR MAHIA. G~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>  9 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 10 ASTI       SEÑOR ASTI. Ob~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 11 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
+#> 12 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 13 GOÑI       SEÑOR GOÑI. Vo~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 14 LAZO       SEÑORA LAZO. V~ COMISION~ 2019-09-17          48 0?width=80~     0
+#> 15 MAHIA      SEÑOR MAHIA. V~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 16 MERONI     SEÑOR MERONI. ~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 17 PEREYRA    SEÑORA PEREYRA~ COMISION~ 2019-09-17          48 0?width=80~     0
+#> 18 TOURNE     SEÑORA TOURNE.~ COMISION~ 2019-09-17          48 0?width=80~     0
+#> 19 VIERA      SEÑOR VIERA. V~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 20 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 21 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 22 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 23 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
+#> 24 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
+```
+
+Este diario de sesión no presenta problemas en los nombres de los
+legisladores por lo que podemos perfectamente ir directo a la
+compilación:
+
+``` r
+text <- speech::speech_build(file = url, compiler = TRUE)
+
+print(text, n = nrow(text))
+#> # A tibble: 11 x 7
+#>    legislator legislature chamber   date       id           speech           sex
+#>    <chr>            <int> <chr>     <date>     <chr>        <chr>          <dbl>
+#>  1 ABDALA              48 COMISION~ 2019-09-17 0?width=800~ SEÑOR ABDALA.~     1
+#>  2 ASTI                48 COMISION~ 2019-09-17 0?width=800~ SEÑOR ASTI. O~     1
+#>  3 AVIAGA              48 COMISION~ 2019-09-17 0?width=800~ SEÑORA AVIAGA~     0
+#>  4 BORDABERRY          48 COMISION~ 2019-09-17 0?width=800~ SEÑOR BORDABE~     1
+#>  5 GOÑI                48 COMISION~ 2019-09-17 0?width=800~ SEÑOR GOÑI. P~     1
+#>  6 LAZO                48 COMISION~ 2019-09-17 0?width=800~ SEÑORA LAZO. ~     0
+#>  7 MAHIA               48 COMISION~ 2019-09-17 0?width=800~ SEÑOR MAHIA. ~     1
+#>  8 MERONI              48 COMISION~ 2019-09-17 0?width=800~ SEÑOR MERONI.~     1
+#>  9 PEREYRA             48 COMISION~ 2019-09-17 0?width=800~ SEÑORA PEREYR~     0
+#> 10 TOURNE              48 COMISION~ 2019-09-17 0?width=800~ SEÑORA TOURNE~     0
+#> 11 VIERA               48 COMISION~ 2019-09-17 0?width=800~ SEÑOR VIERA. ~     1
+```
+
+Ahora podemos agregarle la etiqueta partidaria y el nombre completo a
+los legisladores con el paquete [`puy`]():
+
+``` r
+library(puy)
+text <- add_party(text)
+
+print(text, n = nrow(text))
+#> # A tibble: 11 x 12
+#>    legislator legislature chamber  date       id      speech     sex legislator2
+#>    <chr>            <int> <chr>    <date>     <chr>   <chr>    <dbl> <chr>      
+#>  1 ABDALA              48 COMISIO~ 2019-09-17 0?widt~ SEÑOR A~     1 ABDALA, Pa~
+#>  2 ASTI                48 COMISIO~ 2019-09-17 0?widt~ SEÑOR A~     1 ASTI, Alfr~
+#>  3 AVIAGA              48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 AVIAGA, Ca~
+#>  4 BORDABERRY          48 COMISIO~ 2019-09-17 0?widt~ SEÑOR B~     1 BORDABERRY~
+#>  5 GOÑI                48 COMISIO~ 2019-09-17 0?widt~ SEÑOR G~     1 GOÑI ROMER~
+#>  6 LAZO                48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 LAZO, Sand~
+#>  7 MAHIA               48 COMISIO~ 2019-09-17 0?widt~ SEÑOR M~     1 MAHIA, Jos~
+#>  8 MERONI              48 COMISIO~ 2019-09-17 0?widt~ SEÑOR M~     1 <NA>       
+#>  9 PEREYRA             48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 PEREYRA, S~
+#> 10 TOURNE              48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 TOURNE, Da~
+#> 11 VIERA               48 COMISIO~ 2019-09-17 0?widt~ SEÑOR V~     1 VIERA, Tab~
+#> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
+#> #   words <dbl>
+```
+
+Debemos chequear si tenemos la etiqueta partidaria para todos los
+legisladores:
+
+``` r
+text[, c(1,2, 7:ncol(text))]
+#> # A tibble: 11 x 8
+#>    legislator legislature   sex legislator2   party  party_acron indicator words
+#>    <chr>            <int> <dbl> <chr>         <chr>  <chr>           <int> <dbl>
+#>  1 ABDALA              48     1 ABDALA, Pablo Parti~ PN                  1   398
+#>  2 ASTI                48     1 ASTI, Alfredo Frent~ FA                  1    44
+#>  3 AVIAGA              48     0 AVIAGA, Carol Parti~ PN                  1   105
+#>  4 BORDABERRY          48     1 BORDABERRY, ~ Parti~ PC                  1   961
+#>  5 GOÑI                48     1 GOÑI ROMERO,~ Parti~ PN                  2    98
+#>  6 LAZO                48     0 LAZO, Sandra  Frent~ FA                  3   101
+#>  7 MAHIA               48     1 MAHIA, Jose ~ Frent~ FA                  1   126
+#>  8 MERONI              48     1 <NA>          <NA>   <NA>               NA    10
+#>  9 PEREYRA             48     0 PEREYRA, Sus~ Frent~ FA                  1    10
+#> 10 TOURNE              48     0 TOURNE, Daisy Frent~ FA                  1   109
+#> 11 VIERA               48     1 VIERA, Tabare Parti~ PC                  1     6
+```
+
+Como se puede observar hay un solo diputado o senador que la función
+[`puy::add_party()`]() no logró identificar. Seguramente sea un diputado
+o senador suplente. Dependiendo del análisis posterior que se quiera
+hacer es si se busca por fuentes alternativas la filiación de este
+legislador o se lo puede descartar. La función [`puy::add_party()`]()
+además de agregar el partido y el nombre completo del legislador agrega
+una variable a partir de la función del paquete `speech` que hace un
+conteo de palabras:
+[`speech_word_count()`](https://nicolas-schmidt.github.io/speech/reference/speech_word_count.html).
+Esta variable puede ser de utilidad para estos casos por ejemplo, es
+decir, descartar a este legislador puede que no tenga un impacto
+significativo ya que solo dice 10 palabras (las cuales seguramente sean:
+“Si voto…”).

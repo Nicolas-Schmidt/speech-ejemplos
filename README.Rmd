@@ -55,6 +55,14 @@ Una vez instalado el paquete debe cargarlo en la sesión de trabajo:
 library(speech)
 ```
 
+Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de complejidad en su procesamiento:
+
+* El diario de sesión de la Asamblea General de la reapertura democrática: 15 de febrero de 1985.
+* Un diario de sesión sobre la creación de los consejos de salarios en 1941.
+* Un diario de sesión actual.
+
+
+
 #### Ejemplo 1.
 ###### El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
 
@@ -122,7 +130,7 @@ text2 <- speech_recompiler(tidy_speech = text)
 print(text2, n = nrow(text2))
 
 ```
-Una vez que tenemos la base final (`text2`) ahora podemos proceder a usar el paquete [`puy`]() que permite agregar la etiqueta partidaria a cada legislador.
+Una vez que tenemos la base final (`text2`) ahora podemos proceder a usar el paquete [`puy`]() que permite agregar la etiqueta partidaria y el nombre completo de cada legislador.
 
 ```{r}
 library(puy)
@@ -134,11 +142,39 @@ datos
 
 
 
+#### Ejemplo 3.
 
+Tomamos un diario de sesión reciente y aplicamos el mismo criterio que con los diarios anteriores: usamos `speech_build()` sin compilar para chequear que los nombres de los legisladores sean correctos para luego compilar.
 
+```{r}
+url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/comisionpermanente/6084/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
 
+text <- speech::speech_build(file = url)
 
+print(text, n = nrow(text))
+```
 
+Este diario de sesión no presenta problemas en los nombres de los legisladores por lo que podemos perfectamente ir directo a la compilación:
 
+```{r}
+text <- speech::speech_build(file = url, compiler = TRUE)
 
+print(text, n = nrow(text))
+```
 
+Ahora podemos agregarle la etiqueta partidaria y el nombre completo a los legisladores con el paquete [`puy`]():
+
+```{r}
+library(puy)
+text <- add_party(text)
+
+print(text, n = nrow(text))
+```
+
+Debemos chequear si tenemos la etiqueta partidaria para todos los legisladores:
+
+```{r}
+text[, c(1,2, 7:ncol(text))]
+```
+
+Como se puede observar hay un solo diputado o senador que la función [`puy::add_party()`]() no logró identificar. Seguramente sea un diputado o senador suplente. Dependiendo del análisis posterior que se quiera hacer es si se busca por fuentes alternativas la filiación de este legislador o se lo puede descartar. La función [`puy::add_party()`]() además de agregar el partido y el nombre completo del legislador agrega una variable a partir de la función del paquete `speech` que hace un conteo de palabras: [`speech_word_count()`](https://nicolas-schmidt.github.io/speech/reference/speech_word_count.html). Esta variable puede ser de utilidad para estos casos por ejemplo, es decir, descartar a este legislador puede que no tenga un impacto significativo ya que solo dice 10 palabras (las cuales seguramente sean: "Si voto...").
