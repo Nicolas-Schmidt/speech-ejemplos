@@ -344,6 +344,500 @@ datos
 #> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <dbl>
 ```
 
+#### Ejemplo 2.
+
+``` r
+text <- speech::speech_build(file = "speech_example.pdf")
+print(text)
+#> # A tibble: 130 x 7
+#>    legislator  speech                chamber date       legislature id       sex
+#>    <chr>       <chr>                 <chr>   <date>           <int> <chr>  <dbl>
+#>  1 ITURBIDE    "SEÑOR ITURBIDE. — H~ <NA>    NA                  NA speec~     1
+#>  2 DAMBORIARE~ "SEÑOR DAMBORIARENA.~ <NA>    NA                  NA speec~     1
+#>  3 MOREIRA     "SEÑOR MOREIRA. — Se~ <NA>    NA                  NA speec~     1
+#>  4 GOMEZ       "SEÑOR GOMEZ. — Se h~ <NA>    NA                  NA speec~     1
+#>  5 BRUNO       "SEÑOR BRUNO, — Seño~ <NA>    NA                  NA speec~     1
+#>  6 CERSOSIMO   "SEÑOR CERSOSIMO. —=~ <NA>    NA                  NA speec~     1
+#>  7 PUIG        "SEÑOR PUIG. — Señor~ <NA>    NA                  NA speec~     1
+#>  8 SALGADO     "SEÑOR SALGADO. — Pi~ <NA>    NA                  NA speec~     1
+#>  9 SALGADO     "SEÑOR SALGADO. ~ Te~ <NA>    NA                  NA speec~     1
+#> 10 SALGADO     "SEÑOR SALGADO. — Ya~ <NA>    NA                  NA speec~     1
+#> # ... with 120 more rows
+```
+
+Lo primero que vemos es que aparecen errores en nombres, la variable
+camara, fecha y legislatura no fueron identificadas. Esto nos da la
+pauta de que el documento no es de muy buena calidad. Vamos a chequear
+los nombres de los legisladores previo a compilar:
+
+``` r
+speech_check(text)
+#> $A
+#>   legislator
+#> 1    ANTUNEZ
+#> 2  ARISMENDI
+#> 3  ARISMENDT
+#> 
+#> $B
+#>                 legislator
+#> 1                    BKANE
+#> 2                    BREÑA
+#> 3 BRUNEREAU DES HOUILLERES
+#> 4                    BRUNO
+#> 5               BTJRANELLI
+#> 6                 BURANELL
+#> 7                BURANELLI
+#> 
+#> $C
+#>      legislator
+#> 1 CAl l e r IZA
+#> 2     CALLERIZA
+#> 3     CALLERTZA
+#> 4       CARDOSO
+#> 5     CAUTERIZA
+#> 6     CERSOSIMO
+#> 7     CERSOSTMO
+#> 8 CHOTJHY TERRA
+#> 9  CHOUHY TERRA
+#> 
+#> $D
+#>     legislator
+#> 1 DAMBORIARENA
+#> 
+#> $E
+#>   legislator
+#> 1   ESPALTER
+#> 
+#> $F
+#>         legislator
+#> 1 FERNANDEZ CRESPO
+#> 2            FUJLG
+#> 
+#> $G
+#>   legislator
+#> 1     GARLON
+#> 2     GARZON
+#> 3      GOMEZ
+#> 4   GONZALEZ
+#> 
+#> $I
+#>   legislator
+#> 1   ITURBIDE
+#> 
+#> $J
+#>   legislator
+#> 1 JUiHANELLl
+#> 
+#> $M
+#>        legislator
+#> 1        MARTINEZ
+#> 2     miRBTDE Pid
+#> 3         MOREIRA
+#> 4  MORENO ERADLOS
+#> 5   MORENO RALLOS
+#> 6 MORENO ZEBALLOS
+#> 
+#> $O
+#>   legislator
+#> 1        OIS
+#> 2      OLEHO
+#> 3      OTERO
+#> 
+#> $P
+#>           legislator
+#> 1 P R E S ID E N T E
+#> 2         PRENOTENTE
+#> 3        PRPJSIDENTE
+#> 4         PUaU tSiio
+#> 5               PUIG
+#> 6               PUTG
+#> 
+#> $R
+#>            legislator
+#> 1                  RO
+#> 2     RODRIGLEZ ROCHA
+#> 3 RODRIGUEZ R O C H A
+#> 4     RODRIGUEZ ROCHA
+#> 5                 ROT
+#> 
+#> $S
+#>   legislator
+#> 1    SALGADO
+#> 
+#> $T
+#>   legislator
+#> 1    TIJBINO
+#> 2      TROIT
+#> 3   TROITIÑO
+#> 4   TTERBIDE
+#> 5    TTJBINO
+#> 6    TTTBTNO
+#> 7     TUBINO
+#> 8     TURINO
+```
+
+Vemos que hay errores de dos tipos. El primero es de presidentes que no
+han sido eliminados, y el segundo es que muchos nombres de los
+legisladores están mal escritos. Esto se debe exclusivamente a la mala
+calidad del OCR que tiene este documento. Sin embargo, como vamos a ver
+el paquete `text2` proporciona las funciones adecuadas para lidiar con
+este tipo de problemas. Vamos a comenzar eliminado a los presidentes.
+
+``` r
+text <- speech::speech_build(file = "speech_example.pdf", 
+                             rm.error.leg = c("P R E S ID E N T E", 
+                                              "PRPJSIDENTE", 
+                                              "PRPJSIDENTE", 
+                                              "PRENOTENTE"))
+speech_check(text)
+#> $A
+#>   legislator
+#> 1    ANTUNEZ
+#> 2  ARISMENDI
+#> 3  ARISMENDT
+#> 
+#> $B
+#>                 legislator
+#> 1                    BKANE
+#> 2                    BREÑA
+#> 3 BRUNEREAU DES HOUILLERES
+#> 4                    BRUNO
+#> 5               BTJRANELLI
+#> 6                 BURANELL
+#> 7                BURANELLI
+#> 
+#> $C
+#>      legislator
+#> 1 CAl l e r IZA
+#> 2     CALLERIZA
+#> 3     CALLERTZA
+#> 4       CARDOSO
+#> 5     CAUTERIZA
+#> 6     CERSOSIMO
+#> 7     CERSOSTMO
+#> 8 CHOTJHY TERRA
+#> 9  CHOUHY TERRA
+#> 
+#> $D
+#>     legislator
+#> 1 DAMBORIARENA
+#> 
+#> $E
+#>   legislator
+#> 1   ESPALTER
+#> 
+#> $F
+#>         legislator
+#> 1 FERNANDEZ CRESPO
+#> 2            FUJLG
+#> 
+#> $G
+#>   legislator
+#> 1     GARLON
+#> 2     GARZON
+#> 3      GOMEZ
+#> 4   GONZALEZ
+#> 
+#> $I
+#>   legislator
+#> 1   ITURBIDE
+#> 
+#> $J
+#>   legislator
+#> 1 JUiHANELLl
+#> 
+#> $M
+#>        legislator
+#> 1        MARTINEZ
+#> 2     miRBTDE Pid
+#> 3         MOREIRA
+#> 4  MORENO ERADLOS
+#> 5   MORENO RALLOS
+#> 6 MORENO ZEBALLOS
+#> 
+#> $O
+#>   legislator
+#> 1        OIS
+#> 2      OLEHO
+#> 3      OTERO
+#> 
+#> $P
+#>   legislator
+#> 1 PUaU tSiio
+#> 2       PUIG
+#> 3       PUTG
+#> 
+#> $R
+#>            legislator
+#> 1                  RO
+#> 2     RODRIGLEZ ROCHA
+#> 3 RODRIGUEZ R O C H A
+#> 4     RODRIGUEZ ROCHA
+#> 5                 ROT
+#> 
+#> $S
+#>   legislator
+#> 1    SALGADO
+#> 
+#> $T
+#>   legislator
+#> 1    TIJBINO
+#> 2      TROIT
+#> 3   TROITIÑO
+#> 4   TTERBIDE
+#> 5    TTJBINO
+#> 6    TTTBTNO
+#> 7     TUBINO
+#> 8     TURINO
+```
+
+Solucionado este problema ahora pasamos al problema de los nombres de
+los legisladores que son varios:
+
+``` r
+text <- speech_legis_replace(text, old = "ARISMENDT",     new = "ARISMENDI")
+text <- speech_legis_replace(text, old = "BURANELL",      new = "BURANELLI")
+text <- speech_legis_replace(text, old = "BTJRANELLI",    new = "BURANELLI")
+text <- speech_legis_replace(text, old = "JUiHANELLl",    new = "BURANELLI")
+text <- speech_legis_replace(text, old = "BKANE",         new = "BURANELLI")
+text <- speech_legis_replace(text, old = "CAl l e r IZA", new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CALLERTZA",     new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CAUTERIZA",     new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CERSOSTMO",     new = "CERSOSIMO")
+text <- speech_legis_replace(text, old = "CHOTJHY TERRA", new = "CHOUHY TERRA")
+text <- speech_legis_replace(text, old = "GARLON",        new = "GARZON")
+text <- speech_legis_replace(text, old = "PUTG",          new = "PUIG")
+text <- speech_legis_replace(text, old = "PUaU tSiio",    new = "PUIG")
+text <- speech_legis_replace(text, old = "FUJLG",         new = "PUIG")
+text <- speech_legis_replace(text, old = "TIJBINO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTJBINO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTTBTNO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TURINO",        new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTERBIDE",      new = "ITURBIDE")
+text <- speech_legis_replace(text, old = "miRBTDE Pid",   new = "ITURBIDE")
+text <- speech_legis_replace(text, old = "TROIT",         new = "TROITIÑO")
+text <- speech_legis_replace(text, old = "MORENO ERADLOS",new = "MORENO ZEBALLOS")
+text <- speech_legis_replace(text, old = "MORENO RALLOS", new = "MORENO ZEBALLOS")
+text <- speech_legis_replace(text, old = "OLEHO", new = "OTERO")
+text <- speech_legis_replace(text, old = "RO",            new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "RODRIGUEZ R O C H A", new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "RODRIGLEZ ROCHA", new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "ROT",           new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "BRUNEREAU DES HOUILLERES",  new = "BRUNERAU DES HOUILLERES")
+text <- speech_legis_replace(text, old = "BREÑA",  new = "BRENA")
+
+speech_check(text)
+#> $A
+#>   legislator
+#> 1    ANTUNEZ
+#> 2  ARISMENDI
+#> 
+#> $B
+#>                legislator
+#> 1                   BRENA
+#> 2 BRUNERAU DES HOUILLERES
+#> 3                   BRUNO
+#> 4               BURANELLI
+#> 
+#> $C
+#>     legislator
+#> 1    CALLERIZA
+#> 2      CARDOSO
+#> 3    CERSOSIMO
+#> 4 CHOUHY TERRA
+#> 
+#> $D
+#>     legislator
+#> 1 DAMBORIARENA
+#> 
+#> $E
+#>   legislator
+#> 1   ESPALTER
+#> 
+#> $F
+#>         legislator
+#> 1 FERNANDEZ CRESPO
+#> 
+#> $G
+#>   legislator
+#> 1     GARZON
+#> 2      GOMEZ
+#> 3   GONZALEZ
+#> 
+#> $I
+#>   legislator
+#> 1   ITURBIDE
+#> 
+#> $M
+#>        legislator
+#> 1        MARTINEZ
+#> 2         MOREIRA
+#> 3 MORENO ZEBALLOS
+#> 
+#> $O
+#>   legislator
+#> 1        OIS
+#> 2      OTERO
+#> 
+#> $P
+#>   legislator
+#> 1       PUIG
+#> 
+#> $R
+#>        legislator
+#> 1 RODRIGUEZ ROCHA
+#> 
+#> $S
+#>   legislator
+#> 1    SALGADO
+#> 
+#> $T
+#>   legislator
+#> 1   TROITIÑO
+#> 2     TUBINO
+```
+
+Como podemos ver fueron varias las correcciones que se hicieron. Pero al
+volver a chequear podemos verificar que la base de datos luce
+perfectamente limpia. Previo a compilar es necesario cargar los datos
+faltantes de dos variables claves: la legislatura (`legislature`) y la
+cámara (`chamber`). Luego podemos pasar a compilar el diario de sesión.
+
+``` r
+text$legislature <- 33
+text$chamber     <- "CAMARA DE REPRESENTANTES"
+
+
+text2 <- speech_recompiler(text)
+#> Warning: Variables that are in 'compiler_by' contain NA values: date
+print(text2, n = Inf)
+#> # A tibble: 27 x 7
+#>    legislator    legislature chamber    date       id       sex speech          
+#>    <chr>               <int> <chr>      <date>     <chr>  <dbl> <chr>           
+#>  1 ANTUNEZ                33 CAMARA DE~ NA         speec~     1 "SEÑOR ANTUNEZ.~
+#>  2 ARISMENDI              33 CAMARA DE~ NA         speec~     1 "SEÑOR ARISMEND~
+#>  3 BRENA                  33 CAMARA DE~ NA         speec~     1 "SEÑOR BREÑA. ,~
+#>  4 BRUNERAU DES~          33 CAMARA DE~ NA         speec~     1 "SEÑOR BRUNEREA~
+#>  5 BRUNO                  33 CAMARA DE~ NA         speec~     1 "SEÑOR BRUNO, —~
+#>  6 BURANELLI              33 CAMARA DE~ NA         speec~     1 "SEÑOR B0KANEHl~
+#>  7 CALLERIZA              33 CAMARA DE~ NA         speec~     1 "SEÑOR CAl l e ~
+#>  8 CARDOSO                33 CAMARA DE~ NA         speec~     1 "SEÑOR CARDOSO.~
+#>  9 CERSOSIMO              33 CAMARA DE~ NA         speec~     1 "SEÑOR CERSOSIM~
+#> 10 CHOUHY TERRA           33 CAMARA DE~ NA         speec~     1 "SEÑOR CHOTJHY ~
+#> 11 DAMBORIARENA           33 CAMARA DE~ NA         speec~     1 "SEÑOR DAMBORIA~
+#> 12 ESPALTER               33 CAMARA DE~ NA         speec~     1 "SEÑOR ESPALTER~
+#> 13 FERNANDEZ CR~          33 CAMARA DE~ NA         speec~     1 "SEÑOR FERNANDE~
+#> 14 GARZON                 33 CAMARA DE~ NA         speec~     1 "SEÑOR GARZON. ~
+#> 15 GOMEZ                  33 CAMARA DE~ NA         speec~     1 "SEÑOR GOMEZ. —~
+#> 16 GONZALEZ               33 CAMARA DE~ NA         speec~     1 "SEÑOR GONZALEZ~
+#> 17 ITURBIDE               33 CAMARA DE~ NA         speec~     1 "SEÑOR ITURBIDE~
+#> 18 MARTINEZ               33 CAMARA DE~ NA         speec~     1 "SEÑOR MARTINEZ~
+#> 19 MOREIRA                33 CAMARA DE~ NA         speec~     1 "SEÑOR MOREIRA.~
+#> 20 MORENO ZEBAL~          33 CAMARA DE~ NA         speec~     1 "SEÑOR MORENO Z~
+#> 21 OIS                    33 CAMARA DE~ NA         speec~     1 "SEÑOR OIS. — P~
+#> 22 OTERO                  33 CAMARA DE~ NA         speec~     1 "SEÑOR OTERO. —~
+#> 23 PUIG                   33 CAMARA DE~ NA         speec~     1 "SEÑOR PUIG. — ~
+#> 24 RODRIGUEZ RO~          33 CAMARA DE~ NA         speec~     1 "SEÑOR RODRIGUE~
+#> 25 SALGADO                33 CAMARA DE~ NA         speec~     1 "SEÑOR SALGADO.~
+#> 26 TROITIÑO               33 CAMARA DE~ NA         speec~     1 "SEÑOR TROITIÑO~
+#> 27 TUBINO                 33 CAMARA DE~ NA         speec~     1 "SEÑOR TUBINO. ~
+```
+
+Como se observa, el objeto `text2` que contiene nuestro diario de sesión
+en formato base de datos luce ordenado y limpio. Lo único que resta
+hacer es agregar la etiqueta partidaria con el paquete `puy`.
+
+``` r
+
+library(puy)
+
+text2 <- add_party(text2)
+
+print(text2, n = nrow(text2))
+#> # A tibble: 31 x 12
+#>    legislator  legislature chamber  date       id     speech     sex legislator2
+#>    <chr>             <int> <chr>    <date>     <chr>  <chr>    <dbl> <chr>      
+#>  1 ANTUNEZ              33 CAMARA ~ NA         speec~ "SEÑOR ~     1 ANTUNEZ MA~
+#>  2 ARISMENDI            33 CAMARA ~ NA         speec~ "SEÑOR ~     1 ARISMENDI,~
+#>  3 BRENA                33 CAMARA ~ NA         speec~ "SEÑOR ~     1 BRENA, Tom~
+#>  4 BRUNERAU D~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 BRUNERAU D~
+#>  5 BRUNO                33 CAMARA ~ NA         speec~ "SEÑOR ~     1 BRUNO, Jos~
+#>  6 BURANELLI            33 CAMARA ~ NA         speec~ "SEÑOR ~     1 BURANELLI,~
+#>  7 CALLERIZA            33 CAMARA ~ NA         speec~ "SEÑOR ~     1 CALLERIZA,~
+#>  8 CARDOSO              33 CAMARA ~ NA         speec~ "SEÑOR ~     1 CARDOSO, J~
+#>  9 CERSOSIMO            33 CAMARA ~ NA         speec~ "SEÑOR ~     1 CERSOSIMO,~
+#> 10 CHOUHY TER~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 CHOUHY TER~
+#> 11 CHOUHY TER~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 CHOUHY TER~
+#> 12 DAMBORIARE~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 DAMBORIARE~
+#> 13 ESPALTER             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 ESPALTER, ~
+#> 14 FERNANDEZ ~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 FERNANDEZ ~
+#> 15 GARZON               33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GARZON, Ex~
+#> 16 GOMEZ                33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GOMEZ, Eug~
+#> 17 GONZALEZ             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GONZALEZ, ~
+#> 18 GONZALEZ             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GONZALEZ, ~
+#> 19 GONZALEZ             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GONZALEZ, ~
+#> 20 GONZALEZ             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 GONZALEZ, ~
+#> 21 ITURBIDE             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 ITURBIDE, ~
+#> 22 MARTINEZ             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 MARTINEZ, ~
+#> 23 MOREIRA              33 CAMARA ~ NA         speec~ "SEÑOR ~     1 MOREIRA, J~
+#> 24 MORENO ZEB~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 MORENO ZEB~
+#> 25 OIS                  33 CAMARA ~ NA         speec~ "SEÑOR ~     1 OIS, Martin
+#> 26 OTERO                33 CAMARA ~ NA         speec~ "SEÑOR ~     1 OTERO, Juan
+#> 27 PUIG                 33 CAMARA ~ NA         speec~ "SEÑOR ~     1 PUIG, Vent~
+#> 28 RODRIGUEZ ~          33 CAMARA ~ NA         speec~ "SEÑOR ~     1 RODRIGUEZ ~
+#> 29 SALGADO              33 CAMARA ~ NA         speec~ "SEÑOR ~     1 SALGADO, R~
+#> 30 TROITIÑO             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 TROITIÑO, ~
+#> 31 TUBINO               33 CAMARA ~ NA         speec~ "SEÑOR ~     1 TUBINO, Ar~
+#> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
+#> #   words <dbl>
+```
+
+Lo que surge de agregar la etiqueta partidaria es que la mayoría de los
+políticos están en la base de `politicos` del paquete `puy`. Pero el
+problema es que hay datos duplicados con distinto nombre de legislador.
+Es decir, en dos casos hay más de un legislador que tiene el mismo
+apellido en la misma legislatura. En estos casos la solución es ir al
+diario de sesión y verificar en asistencia quien es el político que
+actuó en esa sesión. En este caso el nombre de los dos políticos que
+son de esta sesión son: `CHOUHY TERRA, Jose L.` y `GONZALEZ, Carmelo R`.
+De esta manera procedemos a eliminar a los otros legisladores y podemos
+dar por terminado el procesamiento de este diario de sesión.
+
+``` r
+text2 <- text2[-c(11, 17, 18, 19),] # marcamos las filas en las que están los legisladores que se deben ir
+print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
+#> # A tibble: 27 x 8
+#>    legislator  legislature   sex legislator2  party  party_acron indicator words
+#>    <chr>             <int> <dbl> <chr>        <chr>  <chr>           <int> <dbl>
+#>  1 ANTUNEZ              33     1 ANTUNEZ MAC~ Parti~ PCGR                2   332
+#>  2 ARISMENDI            33     1 ARISMENDI, ~ Parti~ PC                  1   219
+#>  3 BRENA                33     1 BRENA, Tomas Union~ UC                  1   269
+#>  4 BRUNERAU D~          33     1 BRUNERAU DE~ Parti~ PC                  1     9
+#>  5 BRUNO                33     1 BRUNO, Jose~ Parti~ PN                  1   473
+#>  6 BURANELLI            33     1 BURANELLI, ~ Parti~ PN                  1   399
+#>  7 CALLERIZA            33     1 CALLERIZA, ~ Parti~ PC                  1   554
+#>  8 CARDOSO              33     1 CARDOSO, Jo~ Parti~ PS                  1   165
+#>  9 CERSOSIMO            33     1 CERSOSIMO, ~ Parti~ PC                  1   967
+#> 10 CHOUHY TER~          33     1 CHOUHY TERR~ Parti~ PC                  1   178
+#> 11 DAMBORIARE~          33     1 DAMBORIAREN~ Parti~ PN                  1   504
+#> 12 ESPALTER             33     1 ESPALTER, A~ Parti~ PC                  1    46
+#> 13 FERNANDEZ ~          33     1 FERNANDEZ C~ Parti~ PN                  1  1403
+#> 14 GARZON               33     1 GARZON, Exe~ Parti~ PC                  1   634
+#> 15 GOMEZ                33     1 GOMEZ, Euge~ Parti~ PCU                 1   372
+#> 16 GONZALEZ             33     1 GONZALEZ, C~ Parti~ PN                  1    56
+#> 17 ITURBIDE             33     1 ITURBIDE, J~ Parti~ PC                  1   978
+#> 18 MARTINEZ             33     1 MARTINEZ, E~ Parti~ PC                  1   330
+#> 19 MOREIRA              33     1 MOREIRA, Ju~ Parti~ PC                  1   741
+#> 20 MORENO ZEB~          33     1 MORENO ZEBA~ Parti~ PC                  1   820
+#> 21 OIS                  33     1 OIS, Martin  Parti~ PN                  1   422
+#> 22 OTERO                33     1 OTERO, Juan  Parti~ PC                  1   103
+#> 23 PUIG                 33     1 PUIG, Ventu~ Parti~ PN                  1  1127
+#> 24 RODRIGUEZ ~          33     1 RODRIGUEZ R~ Parti~ PC                  1  1051
+#> 25 SALGADO              33     1 SALGADO, Ra~ Parti~ PN                  1  1283
+#> 26 TROITIÑO             33     1 TROITIÑO, L~ Parti~ PS                  1  1082
+#> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   538
+```
+
 #### Ejemplo 3.
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que

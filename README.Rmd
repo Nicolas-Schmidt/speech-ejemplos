@@ -139,6 +139,103 @@ datos <- add_party(text2)
 datos
 ```
 
+#### Ejemplo 2.
+
+```{r}
+text <- speech::speech_build(file = "speech_example.pdf")
+print(text)
+```
+
+Lo primero que vemos es que aparecen errores en nombres, la variable camara, fecha y legislatura no fueron identificadas. Esto nos da la pauta de que el documento no es de muy buena calidad. Vamos a chequear los nombres de los legisladores previo a compilar:
+
+```{r}
+speech_check(text)
+```
+
+Vemos que hay errores de dos tipos. El primero es de presidentes que no han sido eliminados, y el segundo es que muchos nombres de los legisladores están mal escritos. Esto se debe exclusivamente a la mala calidad del OCR que tiene este documento. Sin embargo, como vamos a ver el paquete `text2` proporciona las funciones adecuadas para lidiar con este tipo de problemas. Vamos a comenzar eliminado a los presidentes.
+
+```{r}
+text <- speech::speech_build(file = "speech_example.pdf", 
+                             rm.error.leg = c("P R E S ID E N T E", 
+                                              "PRPJSIDENTE", 
+                                              "PRPJSIDENTE", 
+                                              "PRENOTENTE"))
+speech_check(text)
+```
+
+Solucionado este problema ahora pasamos al problema de los nombres de los legisladores que son varios:
+
+```{r}
+text <- speech_legis_replace(text, old = "ARISMENDT",     new = "ARISMENDI")
+text <- speech_legis_replace(text, old = "BURANELL",      new = "BURANELLI")
+text <- speech_legis_replace(text, old = "BTJRANELLI",    new = "BURANELLI")
+text <- speech_legis_replace(text, old = "JUiHANELLl",    new = "BURANELLI")
+text <- speech_legis_replace(text, old = "BKANE",         new = "BURANELLI")
+text <- speech_legis_replace(text, old = "CAl l e r IZA", new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CALLERTZA",     new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CAUTERIZA",     new = "CALLERIZA")
+text <- speech_legis_replace(text, old = "CERSOSTMO",     new = "CERSOSIMO")
+text <- speech_legis_replace(text, old = "CHOTJHY TERRA", new = "CHOUHY TERRA")
+text <- speech_legis_replace(text, old = "GARLON",        new = "GARZON")
+text <- speech_legis_replace(text, old = "PUTG",          new = "PUIG")
+text <- speech_legis_replace(text, old = "PUaU tSiio",    new = "PUIG")
+text <- speech_legis_replace(text, old = "FUJLG",         new = "PUIG")
+text <- speech_legis_replace(text, old = "TIJBINO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTJBINO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTTBTNO",       new = "TUBINO")
+text <- speech_legis_replace(text, old = "TURINO",        new = "TUBINO")
+text <- speech_legis_replace(text, old = "TTERBIDE",      new = "ITURBIDE")
+text <- speech_legis_replace(text, old = "miRBTDE Pid",   new = "ITURBIDE")
+text <- speech_legis_replace(text, old = "TROIT",         new = "TROITIÑO")
+text <- speech_legis_replace(text, old = "MORENO ERADLOS",new = "MORENO ZEBALLOS")
+text <- speech_legis_replace(text, old = "MORENO RALLOS", new = "MORENO ZEBALLOS")
+text <- speech_legis_replace(text, old = "OLEHO", new = "OTERO")
+text <- speech_legis_replace(text, old = "RO",            new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "RODRIGUEZ R O C H A", new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "RODRIGLEZ ROCHA", new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "ROT",           new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "BRUNEREAU DES HOUILLERES",  new = "BRUNERAU DES HOUILLERES")
+text <- speech_legis_replace(text, old = "BREÑA",  new = "BRENA")
+
+speech_check(text)
+```
+Como podemos ver fueron varias las correcciones que se hicieron. Pero al volver a chequear podemos verificar que la base de datos luce perfectamente limpia. Previo a compilar es necesario cargar los datos faltantes de dos variables claves: la legislatura (`legislature`) y la cámara (`chamber`). Luego podemos pasar a compilar el diario de sesión.
+
+```{r}
+text$legislature <- 33
+text$chamber     <- "CAMARA DE REPRESENTANTES"
+
+
+text2 <- speech_recompiler(text)
+print(text2, n = Inf)
+```
+
+Como se observa, el objeto `text2` que contiene nuestro diario de sesión en formato base de datos luce ordenado y limpio. Lo único que resta hacer es agregar la etiqueta partidaria con el paquete `puy`.
+
+```{r}
+
+library(puy)
+
+text2 <- add_party(text2)
+
+print(text2, n = nrow(text2))
+```
+
+Lo que surge de agregar la etiqueta partidaria es que la mayoría de los políticos están en la base de `politicos` del paquete `puy`. Pero el problema es que hay datos duplicados con distinto nombre de legislador. Es decir, en dos casos hay más de un legislador que tiene el mismo apellido en la misma legislatura. En estos casos la solución es ir al diario de sesión y verificar en asistencia quien es el político que actuó en esa sesión. En este caso el nombre de los dos políticos que son de esta sesión son: `CHOUHY TERRA, Jose L.` y 
+`GONZALEZ, Carmelo R`. De esta manera procedemos a eliminar a los otros legisladores y podemos dar por terminado el procesamiento de este diario de sesión.
+
+
+```{r}
+text2 <- text2[-c(11, 17, 18, 19),] # marcamos las filas en las que están los legisladores que se deben ir
+print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
+```
+
+
+
+
+
+
+
 
 
 
