@@ -65,9 +65,11 @@ por su sigla en inglés).
 
 Lo primero que hay que hacer en caso de no tener instalado el paquete es
 instalarlo. En la web del paquete debe verificar cual es la última
-versión. Si en número de versión de CRAN coincide con la de GitHub
-instale la de CRAN caso contrario la de GitHub. Esto lo puede verificar
-las etiquetas (badges) que aparecen abajo a la derecha.
+versión. Si el número de versión de CRAN coincide con la de GitHub
+instale la de CRAN caso contrario instale la verisón de GitHub. Esto lo
+puede verificar en las etiquetas (badges) que aparecen abajo a la
+derecha en la web del
+[paquete](https://nicolas-schmidt.github.io/speech/index.html).
 
 Versión de CRAN:
 
