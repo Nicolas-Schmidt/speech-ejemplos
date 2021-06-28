@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Manual y ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
+## Ejemplos en español del paquete `speech` :page_with_curl: <img src='figures/logo.png' align="right" height="180" />
 
 _Nicolás Schmidt, Diego Luján, Juan Andrés Moraes_
 
@@ -22,7 +22,7 @@ _Nicolás Schmidt, Diego Luján, Juan Andrés Moraes_
 El paquete [`speech`](https://nicolas-schmidt.github.io/speech/index.html) permite convertir diarios de sesión del parlamento uruguayo en formato PDF a bases de datos ordenadas en la que cada fila es la intervención de cada uno de los legisladores que interviene en esa sesión. Asimismo, dado que los diarios de sesión muchas veces son imágenes escaneadas y que en el proceso de OCR (reconocimiento óptico de caracteres por su sigla en inglés) se puede perder o dañar la información recuperada, el paquete provee un conjunto de funciones que ayudan a mejorar problemas de este tipo.
 
 
-##### Característias
+##### :round_pushpin: Característias
 
 > Este paquete ordena todas las intervenciones por sesión de cada uno de los __legisladores__. Esto quiere decir que todas las intervenciones de los *presidentes*, *secretarios*, *ministros* o personas invitadas no identificadas como legisladores no van a ser recuperadas por el algoritmo de recuperación del texto del PDF. Muchas veces puede suceder que el algoritmo no identifique claramente alguna de estas intervenciones (que se identifican y se eliminan). En esos casos la función con la que se pasa de un archivo con extensión `.pdf` a un `data.frame` ([`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)) tiene un argumento (`rm.error.leg`) que permite incorporar esos casos que se desean eliminar y no fueron identificados por la función.
 > Algo similar puede suceder con los legisladores. Una opción es que se use la función y que cada fila de la base de datos sea cada una de las intervenciones de cada legislador en cada momento. Esto quiere decir que se va a tener tantas intervenciones por legislador como cuantas intervenciones haya realizado en esa sesión. La otra opción (usando [`speech_build(., compiler = TRUE)`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html) o [`speech_recompiler()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html)) es que cada fila de la base de datos sen todas las intervenciones juntas en una misma sesión de cada legislador o legisladora. El problema que puede surgir en con esta opción es que la **unión** de intervenciones se hace por legislador y si en el proceso de recuperación del texto el nombre de algún legislador no aparece escrito correctamente la compilación no va a reconocer a ese legislador que es el mismo, pero está escrito de distintas maneras. Para solucionar estos problemas y poder compilar el paquete tiene una función que permite arreglar este problema: [`speech_legis_replace()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html).
@@ -57,13 +57,13 @@ library(speech)
 
 Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de complejidad en su procesamiento:
 
-* El diario de sesión de la Asamblea General de la reapertura democrática: 15 de febrero de 1985.
-* Un diario de sesión sobre la creación de los consejos de salarios en 1941.
-* Un diario de sesión actual.
+* :heavy_check_mark: El diario de sesión de la Asamblea General de la reapertura democrática: 15 de febrero de 1985.
+* :heavy_check_mark: Un diario de sesión sobre la creación de los consejos de salarios en 1941.
+* :heavy_check_mark: Un diario de sesión actual.
 
 
 
-#### Ejemplo 1.
+#### :arrow_forward: Ejemplo 1.
 ###### El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
 
 
@@ -130,7 +130,7 @@ text2 <- speech_recompiler(tidy_speech = text)
 print(text2, n = nrow(text2))
 
 ```
-Una vez que tenemos la base final (`text2`) ahora podemos proceder a usar el paquete [`puy`]() que permite agregar la etiqueta partidaria y el nombre completo de cada legislador.
+Una vez que tenemos la base final (`text2`) ahora podemos proceder a usar el paquete [`puy`]() (:boom::exclamation:) que permite agregar la etiqueta partidaria y el nombre completo de cada legislador.
 
 ```{r}
 library(puy)
@@ -139,7 +139,7 @@ datos <- add_party(text2)
 datos
 ```
 
-#### Ejemplo 2.
+#### :arrow_forward: Ejemplo 2.
 
 ```{r}
 text <- speech::speech_build(file = "speech_example.pdf")
@@ -239,7 +239,7 @@ print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 
 
 
-#### Ejemplo 3.
+#### :arrow_forward: Ejemplo 3.
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que con los diarios anteriores: usamos `speech_build()` sin compilar para chequear que los nombres de los legisladores sean correctos para luego compilar.
 

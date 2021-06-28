@@ -1,5 +1,5 @@
 
-## Manual y ejemplos en español del paquete `speech` <img src='figures/logo.png' align="right" height="180" />
+## Ejemplos en español del paquete `speech` :page\_with\_curl: <img src='figures/logo.png' align="right" height="180" />
 
 *Nicolás Schmidt, Diego Luján, Juan Andrés Moraes*
 
@@ -16,7 +16,7 @@ inglés) se puede perder o dañar la información recuperada, el paquete
 provee un conjunto de funciones que ayudan a mejorar problemas de este
 tipo.
 
-##### Característias
+##### :round\_pushpin: Característias
 
 > Este paquete ordena todas las intervenciones por sesión de cada uno de
 > los **legisladores**. Esto quiere decir que todas las intervenciones
@@ -93,13 +93,13 @@ library(speech)
 Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de
 complejidad en su procesamiento:
 
-  - El diario de sesión de la Asamblea General de la reapertura
-    democrática: 15 de febrero de 1985.
-  - Un diario de sesión sobre la creación de los consejos de salarios en
-    1941.
-  - Un diario de sesión actual.
+  - :heavy\_check\_mark: El diario de sesión de la Asamblea General de
+    la reapertura democrática: 15 de febrero de 1985.
+  - :heavy\_check\_mark: Un diario de sesión sobre la creación de los
+    consejos de salarios en 1941.
+  - :heavy\_check\_mark: Un diario de sesión actual.
 
-#### Ejemplo 1.
+#### :arrow\_forward: Ejemplo 1.
 
 ###### El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
 
@@ -323,8 +323,8 @@ print(text2, n = nrow(text2))
 ```
 
 Una vez que tenemos la base final (`text2`) ahora podemos proceder a
-usar el paquete [`puy`]() que permite agregar la etiqueta partidaria y
-el nombre completo de cada legislador.
+usar el paquete [`puy`]() (:boom::exclamation:) que permite agregar la
+etiqueta partidaria y el nombre completo de cada legislador.
 
 ``` r
 library(puy)
@@ -346,7 +346,7 @@ datos
 #> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <dbl>
 ```
 
-#### Ejemplo 2.
+#### :arrow\_forward: Ejemplo 2.
 
 ``` r
 text <- speech::speech_build(file = "speech_example.pdf")
@@ -840,7 +840,7 @@ print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 #> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   538
 ```
 
-#### Ejemplo 3.
+#### :arrow\_forward: Ejemplo 3.
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que
 con los diarios anteriores: usamos `speech_build()` sin compilar para
