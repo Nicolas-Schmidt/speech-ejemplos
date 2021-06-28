@@ -1,5 +1,5 @@
 
-## Ejemplos en español del paquete `speech` :page\_with\_curl: <img src='figures/logo.png' align="right" height="180" />
+## Ejemplos y usos del paquete `speech` :page\_with\_curl: <img src='figures/logo.png' align="right" height="180" />
 
 *Nicolás Schmidt, Diego Luján, Juan Andrés Moraes*
 
@@ -16,7 +16,7 @@ inglés) se puede perder o dañar la información recuperada, el paquete
 provee un conjunto de funciones que ayudan a mejorar problemas de este
 tipo.
 
-##### :round\_pushpin: Característias
+##### :round\_pushpin: Características
 
 > Este paquete ordena todas las intervenciones por sesión de cada uno de
 > los **legisladores**. Esto quiere decir que todas las intervenciones
@@ -50,23 +50,24 @@ tipo.
 > función que permite arreglar este problema:
 > [`speech_legis_replace()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html).
 
-## Ejemplos
+## Ejemplos :warning:
 
 Es importante tener presente que la lectura del texto de los archivos
 PDF de los diarios de sesión no es siempre clara. Muchos de los diarios
 de sesión que están en la página
-[web](https://parlamento.gub.uy/documentosyleyes/documentos/diarios-de-sesion)
+[**web**](https://parlamento.gub.uy/documentosyleyes/documentos/diarios-de-sesion)
 del parlamento están escaneados.
 
 En algunas ocasiones antes de convertir el documento PDF que contiene un
-diario de sesión mediante el uso de la función `speech_build()` va a ser
-necesario pasar el PDF por un OCR (reconocimiento óptico de caracteres
-por su sigla en inglés).
+diario de sesión mediante el uso de la función
+[`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)
+va a ser necesario pasar el PDF por un OCR (reconocimiento óptico de
+caracteres por su sigla en inglés).
 
 Lo primero que hay que hacer en caso de no tener instalado el paquete es
 instalarlo. En la web del paquete debe verificar cual es la última
 versión. Si el número de versión de CRAN coincide con la de GitHub
-instale la de CRAN caso contrario instale la verisón de GitHub. Esto lo
+instale la de CRAN caso contrario instale la versión de GitHub. Esto lo
 puede verificar en las etiquetas (badges) que aparecen abajo a la
 derecha en la web del
 [paquete](https://nicolas-schmidt.github.io/speech/index.html).
@@ -96,8 +97,9 @@ complejidad en su procesamiento:
   - :heavy\_check\_mark: El diario de sesión de la Asamblea General de
     la reapertura democrática: 15 de febrero de 1985.
   - :heavy\_check\_mark: Un diario de sesión sobre la creación de los
-    consejos de salarios en 1941.
-  - :heavy\_check\_mark: Un diario de sesión actual.
+    consejos de salarios del 13 de octubre de 1941.
+  - :heavy\_check\_mark: Un diario de sesión reciente de una sesión
+    convencional ce la Comisión Permanente del 17 de setiembre de 2019
 
 #### :arrow\_forward: Ejemplo 1.
 
@@ -161,9 +163,10 @@ legisladores. El legislador 13, 23 y 24 parecen ser el mismo que el 14.
 También se aprecia que hay un *‘legislador’* que no es legislador y que
 no debería aparecer: el 19: *‘PIRIESIDENTE’*.
 
-Comencemos por el ultimo problema. La función `speech_build()` tiene un
-argumento que permite eliminar ‘legisladores’ que no queremos en nuestra
-base de datos: `rm.error.leg`
+Comencemos por el ultimo problema. La función
+[`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)
+tiene un argumento que permite eliminar ‘legisladores’ que no queremos
+en nuestra base de datos: `rm.error.leg`
 
 ``` r
 text <- speech::speech_build(file = url, rm.error.leg = "PIRIESIDENTE")
@@ -303,7 +306,7 @@ speech_check(text)
 
 Una vez que consideramos que ya no hay más cambios por realizar podemos
 recompilar el diario de sesión. Tenemos que recompilarlo ya que hemos
-modificado la compilacion inicial.
+modificado la compilación inicial.
 
 ``` r
 text2 <- speech_recompiler(tidy_speech = text)
@@ -368,7 +371,7 @@ print(text)
 ```
 
 Lo primero que vemos es que aparecen errores en nombres, la variable
-camara, fecha y legislatura no fueron identificadas. Esto nos da la
+cámara, fecha y legislatura no fueron identificadas. Esto nos da la
 pauta de que el documento no es de muy buena calidad. Vamos a chequear
 los nombres de los legisladores previo a compilar:
 
@@ -843,9 +846,10 @@ print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 #### :arrow\_forward: Ejemplo 3.
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que
-con los diarios anteriores: usamos `speech_build()` sin compilar para
-chequear que los nombres de los legisladores sean correctos para luego
-compilar.
+con los diarios anteriores: usamos
+[`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)
+sin compilar para chequear que los nombres de los legisladores sean
+correctos para luego compilar.
 
 ``` r
 url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/comisionpermanente/6084/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
