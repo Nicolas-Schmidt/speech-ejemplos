@@ -3,6 +3,20 @@
 
 *Nicolás Schmidt, Diego Luján, Juan Andrés Moraes*
 
+### Índice
+
+  - [Descripción del paquete `speech`](#descripción)
+  - [Características del paquete `speech`](#características)
+  - [Ejemplos](#ejemplos)
+      - [Ejemplo 1: Primer sesión desde la restauracion
+        democrática](#ejemplo-1)
+      - [Ejemplo 2: Sesión sobre creacion de Consejos de
+        Salarios](#ejemplo-2)
+      - [Ejemplo 3: Sesión reciente de la Comisión
+        Permanente](#ejemplo-3)
+  - [Usos de `speech`](#usos)
+  - [Aplicación web de `speech` y `puy`](#aplicación-web)
+
 ### Descripción
 
 El paquete
@@ -16,41 +30,41 @@ inglés) se puede perder o dañar la información recuperada, el paquete
 provee un conjunto de funciones que ayudan a mejorar problemas de este
 tipo.
 
-##### :round\_pushpin: Características
+### Características
 
-> Este paquete ordena todas las intervenciones por sesión de cada uno de
-> los **legisladores**. Esto quiere decir que todas las intervenciones
-> de los *presidentes*, *secretarios*, *ministros* o personas invitadas
-> no identificadas como legisladores no van a ser recuperadas por el
-> algoritmo de recuperación del texto del PDF. Muchas veces puede
-> suceder que el algoritmo no identifique claramente alguna de estas
-> intervenciones (que se identifican y se eliminan). En esos casos la
-> función con la que se pasa de un archivo con extensión `.pdf` a un
-> `data.frame`
-> ([`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html))
-> tiene un argumento (`rm.error.leg`) que permite incorporar esos casos
-> que se desean eliminar y no fueron identificados por la función. Algo
-> similar puede suceder con los legisladores. Una opción es que se use
-> la función y que cada fila de la base de datos sea cada una de las
-> intervenciones de cada legislador en cada momento. Esto quiere decir
-> que se va a tener tantas intervenciones por legislador como cuantas
-> intervenciones haya realizado en esa sesión. La otra opción (usando
-> [`speech_build(., compiler =
-> TRUE)`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)
-> o
-> [`speech_recompiler()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html))
-> es que cada fila de la base de datos sen todas las intervenciones
-> juntas en una misma sesión de cada legislador o legisladora. El
-> problema que puede surgir en con esta opción es que la **unión** de
-> intervenciones se hace por legislador y si en el proceso de
-> recuperación del texto el nombre de algún legislador no aparece
-> escrito correctamente la compilación no va a reconocer a ese
-> legislador que es el mismo, pero está escrito de distintas maneras.
-> Para solucionar estos problemas y poder compilar el paquete tiene una
-> función que permite arreglar este problema:
-> [`speech_legis_replace()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html).
+Este paquete ordena todas las intervenciones por sesión de cada uno de
+los **legisladores**. Esto quiere decir que todas las intervenciones de
+los *presidentes*, *secretarios*, *ministros* o personas invitadas no
+identificadas como legisladores no van a ser recuperadas por el
+algoritmo de recuperación del texto del PDF. Muchas veces puede suceder
+que el algoritmo no identifique claramente alguna de estas
+intervenciones (que se identifican y se eliminan). En esos casos la
+función con la que se pasa de un archivo con extensión `.pdf` a un
+`data.frame`
+([`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html))
+tiene un argumento (`rm.error.leg`) que permite incorporar esos casos
+que se desean eliminar y no fueron identificados por la función. \> Algo
+similar puede suceder con los legisladores. Una opción es que se use la
+función y que cada fila de la base de datos sea cada una de las
+intervenciones de cada legislador en cada momento. Esto quiere decir que
+se va a tener tantas intervenciones por legislador como cuantas
+intervenciones haya realizado en esa sesión. La otra opción (usando
+[`speech_build(., compiler =
+TRUE)`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html)
+o
+[`speech_recompiler()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html))
+es que cada fila de la base de datos sen todas las intervenciones juntas
+en una misma sesión de cada legislador o legisladora. El problema que
+puede surgir en con esta opción es que la **unión** de intervenciones se
+hace por legislador y si en el proceso de recuperación del texto el
+nombre de algún legislador no aparece escrito correctamente la
+compilación no va a reconocer a ese legislador que es el mismo, pero
+está escrito de distintas maneras. Para solucionar estos problemas y
+poder compilar el paquete tiene una función que permite arreglar este
+problema:
+[`speech_legis_replace()`](https://nicolas-schmidt.github.io/speech/reference/speech_recompiler.html).
 
-## Ejemplos :warning:
+## Ejemplos
 
 Es importante tener presente que la lectura del texto de los archivos
 PDF de los diarios de sesión no es siempre clara. Muchos de los diarios
@@ -94,16 +108,16 @@ library(speech)
 Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de
 complejidad en su procesamiento:
 
-  - :heavy\_check\_mark: El diario de sesión de la Asamblea General de
-    la reapertura democrática: 15 de febrero de 1985.
-  - :heavy\_check\_mark: Un diario de sesión sobre la creación de los
-    consejos de salarios del 13 de octubre de 1941.
-  - :heavy\_check\_mark: Un diario de sesión reciente de una sesión
-    convencional ce la Comisión Permanente del 17 de setiembre de 2019
+:heavy\_check\_mark: El diario de sesión de la Asamblea General de la
+reapertura democrática: 15 de febrero de 1985.  
+:heavy\_check\_mark: Un diario de sesión sobre la creación de los
+consejos de salarios del 13 de octubre de 1941.  
+:heavy\_check\_mark: Un diario de sesión reciente de una sesión
+convencional ce la Comisión Permanente del 17 de setiembre de 2019
 
-#### :arrow\_forward: Ejemplo 1.
+### Ejemplo 1
 
-###### El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
+###### :arrow\_forward: El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
 
 Lo primero que vamos a hacer es buscar la url al diario de sesión con el
 que queremos trabajar o los descargamos en el argumento `file` ponemos
@@ -349,7 +363,9 @@ datos
 #> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <dbl>
 ```
 
-#### :arrow\_forward: Ejemplo 2.
+### Ejemplo 2
+
+###### :arrow\_forward: Un diario de sesión sobre la creación de los consejos de salarios del 13 de octubre de 1941.
 
 ``` r
 text <- speech::speech_build(file = "speech_example.pdf")
@@ -843,7 +859,9 @@ print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 #> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   538
 ```
 
-#### :arrow\_forward: Ejemplo 3.
+### Ejemplo 3
+
+#### :arrow\_forward: Un diario de sesión reciente de una sesión convencional ce la Comisión Permanente del 17 de setiembre de 2019
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que
 con los diarios anteriores: usamos
@@ -970,3 +988,7 @@ Esta variable puede ser de utilidad para estos casos por ejemplo, es
 decir, descartar a este legislador puede que no tenga un impacto
 significativo ya que solo dice 10 palabras (las cuales seguramente sean:
 “Si voto…”).
+
+## Usos
+
+## Aplicación web
