@@ -108,12 +108,12 @@ library(speech)
 Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de
 complejidad en su procesamiento:
 
-:heavy\_check\_mark: El diario de sesión de la Asamblea General de la
-reapertura democrática: 15 de febrero de 1985.  
-:heavy\_check\_mark: Un diario de sesión sobre la creación de los
-consejos de salarios del 13 de octubre de 1941.  
-:heavy\_check\_mark: Un diario de sesión reciente de una sesión
-convencional ce la Comisión Permanente del 17 de setiembre de 2019
+  - El diario de sesión de la Asamblea General de la reapertura
+    democrática: 15 de febrero de 1985.  
+  - Un diario de sesión sobre la creación de los consejos de salarios
+    del 13 de octubre de 1941.  
+  - Un diario de sesión reciente de una sesión convencional ce la
+    Comisión Permanente del 17 de setiembre de 2019
 
 ### Ejemplo 1
 
@@ -990,5 +990,12 @@ significativo ya que solo dice 10 palabras (las cuales seguramente sean:
 “Si voto…”).
 
 ## Usos
+
+En esta sección se deja constancia del uso que distintos usuarios hacen
+o han hecho del paquete `speech`.
+
+  - **La temática de género en el Parlamento uruguayo**:
+    [aquí](https://www.elinagomez.com/blog/2020-09-25-parlamento-genero/#fnref2)
+      - [Elina Gómez](https://www.elinagomez.com/)
 
 ## Aplicación web
