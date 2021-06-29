@@ -8,9 +8,9 @@
   - [Descripción del paquete `speech`](#descripción)
   - [Características del paquete `speech`](#características)
   - [Ejemplos](#ejemplos)
-      - [Ejemplo 1: Primer sesión desde la restauracion
+      - [Ejemplo 1: Primer sesión desde la restauración
         democrática](#ejemplo-1)
-      - [Ejemplo 2: Sesión sobre creacion de Consejos de
+      - [Ejemplo 2: Sesión sobre creación de Consejos de
         Salarios](#ejemplo-2)
       - [Ejemplo 3: Sesión reciente de la Comisión
         Permanente](#ejemplo-3)
@@ -639,13 +639,14 @@ text <- speech_legis_replace(text, old = "miRBTDE Pid",   new = "ITURBIDE")
 text <- speech_legis_replace(text, old = "TROIT",         new = "TROITIÑO")
 text <- speech_legis_replace(text, old = "MORENO ERADLOS",new = "MORENO ZEBALLOS")
 text <- speech_legis_replace(text, old = "MORENO RALLOS", new = "MORENO ZEBALLOS")
-text <- speech_legis_replace(text, old = "OLEHO", new = "OTERO")
+text <- speech_legis_replace(text, old = "OLEHO",         new = "OTERO")
 text <- speech_legis_replace(text, old = "RO",            new = "RODRIGUEZ ROCHA")
-text <- speech_legis_replace(text, old = "RODRIGUEZ R O C H A", new = "RODRIGUEZ ROCHA")
-text <- speech_legis_replace(text, old = "RODRIGLEZ ROCHA", new = "RODRIGUEZ ROCHA")
-text <- speech_legis_replace(text, old = "ROT",           new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "BREÑA",         new = "BRENA")
+text <- speech_legis_replace(text, old = "RODRIGUEZ R O C H A",       new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "RODRIGLEZ ROCHA",           new = "RODRIGUEZ ROCHA")
+text <- speech_legis_replace(text, old = "ROT",                       new = "RODRIGUEZ ROCHA")
 text <- speech_legis_replace(text, old = "BRUNEREAU DES HOUILLERES",  new = "BRUNERAU DES HOUILLERES")
-text <- speech_legis_replace(text, old = "BREÑA",  new = "BRENA")
+
 
 speech_check(text)
 #> $A
