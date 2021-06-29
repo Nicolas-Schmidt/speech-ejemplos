@@ -1,7 +1,7 @@
 
 ## Ejemplos y usos del paquete `speech` :page\_with\_curl: <img src='figures/logo.png' align="right" height="180" />
 
-*Nicolás Schmidt, Diego Luján, Juan Andrés Moraes*
+*Nicolás Schmidt*
 
 ### Índice
 
