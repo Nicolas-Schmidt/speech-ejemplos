@@ -43,9 +43,10 @@ función con la que se pasa de un archivo con extensión `.pdf` a un
 `data.frame`
 ([`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html))
 tiene un argumento (`rm.error.leg`) que permite incorporar esos casos
-que se desean eliminar y no fueron identificados por la función. \> Algo
-similar puede suceder con los legisladores. Una opción es que se use la
-función y que cada fila de la base de datos sea cada una de las
+que se desean eliminar y no fueron identificados por la función.
+
+Algo similar puede suceder con los legisladores. Una opción es que se
+use la función y que cada fila de la base de datos sea cada una de las
 intervenciones de cada legislador en cada momento. Esto quiere decir que
 se va a tener tantas intervenciones por legislador como cuantas
 intervenciones haya realizado en esa sesión. La otra opción (usando
