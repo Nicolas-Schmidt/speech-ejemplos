@@ -113,7 +113,7 @@ complejidad en su procesamiento:
     democrática: 15 de febrero de 1985.  
   - Un diario de sesión sobre la creación de los consejos de salarios
     del 13 de octubre de 1941.  
-  - Un diario de sesión reciente de una sesión convencional ce la
+  - Un diario de sesión reciente de una sesión convencional de la
     Comisión Permanente del 17 de setiembre de 2019
 
 ### Ejemplo 1
