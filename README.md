@@ -361,7 +361,7 @@ datos
 #> 7 ROSSI PAS~          42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 ROSSI PASS~ Unio~
 #> 8 TOURNE              42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 TOURNE, Ur~ Part~
 #> 9 VAILLANT            42 ASAMBL~ 1985-02-15 0?wi~ "SEÑO~     1 VAILLANT, ~ Part~
-#> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <int>
+#> # ... with 3 more variables: party_acron <chr>, indicator <int>, words <dbl>
 ```
 
 ### Ejemplo 2
@@ -812,7 +812,7 @@ print(text2, n = nrow(text2))
 #> 30 TROITIÑO             33 CAMARA ~ NA         speec~ "SEÑOR ~     1 TROITIÑO, ~
 #> 31 TUBINO               33 CAMARA ~ NA         speec~ "SEÑOR ~     1 TUBINO, Ar~
 #> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
-#> #   words <int>
+#> #   words <dbl>
 ```
 
 Lo que surge de agregar la etiqueta partidaria es que la mayoría de los
@@ -831,34 +831,34 @@ text2 <- text2[-c(11, 17, 18, 19),] # marcamos las filas en las que están los l
 print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 #> # A tibble: 27 x 8
 #>    legislator  legislature   sex legislator2  party  party_acron indicator words
-#>    <chr>             <int> <dbl> <chr>        <chr>  <chr>           <int> <int>
-#>  1 ANTUNEZ              33     1 ANTUNEZ MAC~ Parti~ PCGR                2   334
-#>  2 ARISMENDI            33     1 ARISMENDI, ~ Parti~ PC                  1   221
-#>  3 BRENA                33     1 BRENA, Tomas Union~ UC                  1   271
-#>  4 BRUNERAU D~          33     1 BRUNERAU DE~ Parti~ PC                  1    11
-#>  5 BRUNO                33     1 BRUNO, Jose~ Parti~ PN                  1   475
-#>  6 BURANELLI            33     1 BURANELLI, ~ Parti~ PN                  1   401
-#>  7 CALLERIZA            33     1 CALLERIZA, ~ Parti~ PC                  1   556
-#>  8 CARDOSO              33     1 CARDOSO, Jo~ Parti~ PS                  1   167
-#>  9 CERSOSIMO            33     1 CERSOSIMO, ~ Parti~ PC                  1   969
-#> 10 CHOUHY TER~          33     1 CHOUHY TERR~ Parti~ PC                  1   180
-#> 11 DAMBORIARE~          33     1 DAMBORIAREN~ Parti~ PN                  1   506
-#> 12 ESPALTER             33     1 ESPALTER, A~ Parti~ PC                  1    48
-#> 13 FERNANDEZ ~          33     1 FERNANDEZ C~ Parti~ PN                  1  1405
-#> 14 GARZON               33     1 GARZON, Exe~ Parti~ PC                  1   636
-#> 15 GOMEZ                33     1 GOMEZ, Euge~ Parti~ PCU                 1   374
-#> 16 GONZALEZ             33     1 GONZALEZ, C~ Parti~ PN                  1    58
-#> 17 ITURBIDE             33     1 ITURBIDE, J~ Parti~ PC                  1   980
-#> 18 MARTINEZ             33     1 MARTINEZ, E~ Parti~ PC                  1   332
-#> 19 MOREIRA              33     1 MOREIRA, Ju~ Parti~ PC                  1   743
-#> 20 MORENO ZEB~          33     1 MORENO ZEBA~ Parti~ PC                  1   822
-#> 21 OIS                  33     1 OIS, Martin  Parti~ PN                  1   424
-#> 22 OTERO                33     1 OTERO, Juan  Parti~ PC                  1   105
-#> 23 PUIG                 33     1 PUIG, Ventu~ Parti~ PN                  1  1129
-#> 24 RODRIGUEZ ~          33     1 RODRIGUEZ R~ Parti~ PC                  1  1053
-#> 25 SALGADO              33     1 SALGADO, Ra~ Parti~ PN                  1  1285
-#> 26 TROITIÑO             33     1 TROITIÑO, L~ Parti~ PS                  1  1084
-#> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   540
+#>    <chr>             <int> <dbl> <chr>        <chr>  <chr>           <int> <dbl>
+#>  1 ANTUNEZ              33     1 ANTUNEZ MAC~ Parti~ PCGR                2   326
+#>  2 ARISMENDI            33     1 ARISMENDI, ~ Parti~ PC                  1   217
+#>  3 BRENA                33     1 BRENA, Tomas Union~ UC                  1   267
+#>  4 BRUNERAU D~          33     1 BRUNERAU DE~ Parti~ PC                  1     7
+#>  5 BRUNO                33     1 BRUNO, Jose~ Parti~ PN                  1   473
+#>  6 BURANELLI            33     1 BURANELLI, ~ Parti~ PN                  1   393
+#>  7 CALLERIZA            33     1 CALLERIZA, ~ Parti~ PC                  1   546
+#>  8 CARDOSO              33     1 CARDOSO, Jo~ Parti~ PS                  1   161
+#>  9 CERSOSIMO            33     1 CERSOSIMO, ~ Parti~ PC                  1   961
+#> 10 CHOUHY TER~          33     1 CHOUHY TERR~ Parti~ PC                  1   174
+#> 11 DAMBORIARE~          33     1 DAMBORIAREN~ Parti~ PN                  1   504
+#> 12 ESPALTER             33     1 ESPALTER, A~ Parti~ PC                  1    44
+#> 13 FERNANDEZ ~          33     1 FERNANDEZ C~ Parti~ PN                  1  1396
+#> 14 GARZON               33     1 GARZON, Exe~ Parti~ PC                  1   614
+#> 15 GOMEZ                33     1 GOMEZ, Euge~ Parti~ PCU                 1   372
+#> 16 GONZALEZ             33     1 GONZALEZ, C~ Parti~ PN                  1    54
+#> 17 ITURBIDE             33     1 ITURBIDE, J~ Parti~ PC                  1   970
+#> 18 MARTINEZ             33     1 MARTINEZ, E~ Parti~ PC                  1   320
+#> 19 MOREIRA              33     1 MOREIRA, Ju~ Parti~ PC                  1   733
+#> 20 MORENO ZEB~          33     1 MORENO ZEBA~ Parti~ PC                  1   807
+#> 21 OIS                  33     1 OIS, Martin  Parti~ PN                  1   418
+#> 22 OTERO                33     1 OTERO, Juan  Parti~ PC                  1    97
+#> 23 PUIG                 33     1 PUIG, Ventu~ Parti~ PN                  1  1111
+#> 24 RODRIGUEZ ~          33     1 RODRIGUEZ R~ Parti~ PC                  1   981
+#> 25 SALGADO              33     1 SALGADO, Ra~ Parti~ PN                  1  1269
+#> 26 TROITIÑO             33     1 TROITIÑO, L~ Parti~ PS                  1  1074
+#> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   522
 ```
 
 ### Ejemplo 3
@@ -953,7 +953,7 @@ print(text, n = nrow(text))
 #> 10 TOURNE              48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 TOURNE, Da~
 #> 11 VIERA               48 COMISIO~ 2019-09-17 0?widt~ SEÑOR V~     1 VIERA, Tab~
 #> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
-#> #   words <int>
+#> #   words <dbl>
 ```
 
 Debemos chequear si tenemos la etiqueta partidaria para todos los
@@ -963,18 +963,18 @@ legisladores:
 text[, c(1,2, 7:ncol(text))]
 #> # A tibble: 11 x 8
 #>    legislator legislature   sex legislator2   party  party_acron indicator words
-#>    <chr>            <int> <dbl> <chr>         <chr>  <chr>           <int> <int>
-#>  1 ABDALA              48     1 ABDALA, Pablo Parti~ PN                  1   400
-#>  2 ASTI                48     1 ASTI, Alfredo Frent~ FA                  1    46
+#>    <chr>            <int> <dbl> <chr>         <chr>  <chr>           <int> <dbl>
+#>  1 ABDALA              48     1 ABDALA, Pablo Parti~ PN                  1   394
+#>  2 ASTI                48     1 ASTI, Alfredo Frent~ FA                  1    44
 #>  3 AVIAGA              48     0 AVIAGA, Carol Parti~ PN                  1   107
-#>  4 BORDABERRY          48     1 BORDABERRY, ~ Parti~ PC                  1   963
-#>  5 GOÑI                48     1 GOÑI ROMERO,~ Parti~ PN                  2   100
+#>  4 BORDABERRY          48     1 BORDABERRY, ~ Parti~ PC                  1   951
+#>  5 GOÑI                48     1 GOÑI ROMERO,~ Parti~ PN                  2    94
 #>  6 LAZO                48     0 LAZO, Sandra  Frent~ FA                  3   103
-#>  7 MAHIA               48     1 MAHIA, Jose ~ Frent~ FA                  1   128
-#>  8 MERONI              48     1 <NA>          <NA>   <NA>               NA    12
+#>  7 MAHIA               48     1 MAHIA, Jose ~ Frent~ FA                  1   122
+#>  8 MERONI              48     1 <NA>          <NA>   <NA>               NA    10
 #>  9 PEREYRA             48     0 PEREYRA, Sus~ Frent~ FA                  1    12
 #> 10 TOURNE              48     0 TOURNE, Daisy Frent~ FA                  1   111
-#> 11 VIERA               48     1 VIERA, Tabare Parti~ PC                  1     8
+#> 11 VIERA               48     1 VIERA, Tabare Parti~ PC                  1     6
 ```
 
 Como se puede observar hay un solo diputado o senador que la función
