@@ -3,7 +3,7 @@
 
 *Nicolás Schmidt*
 
-![visitors](https://visitor-badge.glitch.me/badge?page_id=Nicolas-Schmidt.puy)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=Nicolas-Schmidt.speech-ejemplos)
 
 ### Índice
 
