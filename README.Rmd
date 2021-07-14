@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 _Nicolás Schmidt_
 
+![visitors](https://visitor-badge.glitch.me/badge?page_id=Nicolas-Schmidt.puy)
 
 ### Índice
 
