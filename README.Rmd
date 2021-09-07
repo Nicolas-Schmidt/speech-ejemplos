@@ -26,6 +26,8 @@ _Nicolás Schmidt_
   * [Ejemplo 1: Primer sesión desde la restauración democrática](#ejemplo-1)
   * [Ejemplo 2: Sesión sobre creación de Consejos de Salarios](#ejemplo-2)
   * [Ejemplo 3: Sesión reciente de la Comisión Permanente](#ejemplo-3)
+  * [Ejemplo 4: Descarga de sesiones según rango temporal](#ejemplo-4)
+* [Posibles aplicaciones](#aplic)
 * [Usos de `speech`](#usos)
 * [Aplicación web de `speech` y `puy`](#aplicación-web)
 
@@ -253,7 +255,7 @@ print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
 
 ### Ejemplo 3
 
-#### :arrow_forward: Un diario de sesión reciente de una sesión convencional ce la Comisión Permanente del 17 de setiembre de 2019
+#### :arrow_forward: Un diario de sesión reciente de una sesión convencional de la Comisión Permanente del 17 de setiembre de 2019
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que con los diarios anteriores: usamos [`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html) sin compilar para chequear que los nombres de los legisladores sean correctos para luego compilar.
 
@@ -289,6 +291,123 @@ text[, c(1,2, 7:ncol(text))]
 ```
 
 Como se puede observar hay un solo diputado o senador que la función [`puy::add_party()`]() no logró identificar. Seguramente sea un diputado o senador suplente. Dependiendo del análisis posterior que se quiera hacer es si se busca por fuentes alternativas la filiación de este legislador o se lo puede descartar. La función [`puy::add_party()`]() además de agregar el partido y el nombre completo del legislador agrega una variable a partir de la función del paquete `speech` que hace un conteo de palabras: [`speech_word_count()`](https://nicolas-schmidt.github.io/speech/reference/speech_word_count.html). Esta variable puede ser de utilidad para estos casos por ejemplo, es decir, descartar a este legislador puede que no tenga un impacto significativo ya que solo dice 10 palabras (las cuales seguramente sean: "Si voto...").
+
+
+Por último, si por alguna razón necesitamos, luego de tener la base de datos compilada, que cada fila se corresponda con cada una de las intervención de un legislador y que el texto no se encuentre agrupado, es posible usar la función [`speech::speech_uncompiler()`]() cuyo único argumento _tidy_speech_ se corresponde con el resultado de la aplicación de [`speech_build(., compiler = TRUE)`]().
+
+### Ejemplo 4
+
+#### :arrow_forward: Descarga masiva de sesiones correspondiente a un período de tiempo detarminado: Cámara de Representantes del 20-11-2014 al 20-11-2020
+
+Si necesitamos obtener la información sobre las intervenciones correspondiente a un rango de fechas determinado, es posible usar la función [`speech::speech_url()`]() que permite _scrapear_ (descargar directamente de la web) las URL de las sesiones correspondientes y alojarlas en un vector que luego servirá como argumento de la función [`speech::speech_build()`](). 
+Tal como se muestra en el ejemplo, necesito obtener información ordenada de todos los diarios de sesión de la Cámara de Representantes, entre el 20-11-2014 y el 20-11-2020, lo cual incluye sesiones correspondientes a tres legislaturas diferentes.
+
+```{r eval=FALSE}
+
+sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2020")
+
+```
+
+Esta función busca simplificar el procedimiento de obtención de URL o descarga de diarios de sesión de forma manual, ya que automatiza la descarga de las mismas.
+
+
+## Posibles aplicaciones
+
+A continuación se muestran algunas posibles aplicaciones de `speech`, a partir del análisis de los discursos vinculados a la discusión de la _Ley de Urgente Consideración (LUC)_ en la Cámara de Senadores del 5 de junio de 2020.
+
+Al igual que en los ejemplos precedentes, comenzamos utilizando la función [`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html) para descargar las intervenciones que me interesan, así como agregando la etiqueta partidaria con [`puy::add_party()`]().    
+
+```{r}
+
+url <- "https://parlamento.gub.uy/documentosyleyes/documentos/diario-de-sesion/senadores/6145/IMG/0?width=800&height=600&hl=en_US1&iframe=true&rel=nofollow"
+
+intervenciones <- speech::speech_build(file = url)
+intervenciones <- puy::add_party(intervenciones)
+
+```
+
+
+Luego, como primer paso para explorar el contenido de los discursos de una sesión o conjunto de sesiones, podríamos usar el paquete [`quanteda`](https://quanteda.io/) para definir un corpus con las intervenciones y generar un _document-feature-matrix_ que permitirá realizar análisis y visualizaciones. Para ello, realizo algunas tareas de limpieza del texto como normalizar el texto en minúscula, remover los conectores, artículos y palabras de menos de tres caracteres, eliminar los nombres de los legisladores, las puntuaciones y los números. 
+
+
+```{r}
+corpus_intervenciones <- quanteda::corpus(intervenciones,text_field = "speech")
+dfm_intervenciones <- quanteda::dfm(corpus_intervenciones,
+             stem = FALSE,
+             tolower = TRUE,
+             remove = c(quanteda::stopwords("spanish"),tolower(intervenciones$legislator)), 
+             remove_punct = TRUE, 
+             remove_numbers = TRUE, 
+             verbose = FALSE,
+             groups = "party")
+dfm_intervenciones <- quanteda::dfm_remove(dfm_intervenciones,min_nchar=3)
+
+```
+
+En segundo lugar, generamos una nube de palabras segmentada por partido al que pertenece el legislador:
+
+```{r message=FALSE, warning=FALSE}
+quanteda::textplot_wordcloud(dfm_intervenciones, min.count = 2,max_words = 500,
+random.order = FALSE,colors = RColorBrewer::brewer.pal(8,"Dark2"),comparison = T)
+
+```
+
+
+Utilizamos la función [`quanteda::textstat_simil()`]() de _quanteda_ para construir una matriz de distancias (según co-ocurrencia) y calcular la _correlación_ entre un término, en este caso _"luc"_,y otras palabras que aparecen en las intervenciones. A continuación se imprimen las 15 palabras con mayor correlación con dicho término.  
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r message=FALSE, warning=FALSE}
+
+quanteda::textstat_simil(dfm_intervenciones,selection = "luc",
+method = "correlation",margin = "features")%>%
+  as.data.frame()%>%
+  dplyr::arrange(-correlation)%>%
+  dplyr::top_n(15)
+
+```
+
+Así también podemos ver con la función [`quanteda::kwic()`]() el contexto de aparición de una palabra, término o frase, según una ventana (cantidad de palabras previas y posteriores) determinada, en este caso 15. Extraer el contexto de ciertos términos puede ser de utilidad para construir un nuevo corpus y realizar un análisis focalizado y/o comparativo.   
+
+```{r eval=FALSE}
+quanteda::kwic(corpus_intervenciones, 
+pattern = quanteda::phrase(c("ley de urgente consideración")),
+window = 15)
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+luc  <-  quanteda::kwic(corpus_intervenciones, 
+     pattern = quanteda::phrase(c("ley de urgente consideración")),
+     window = 15)%>%
+     select(-pattern)
+DT::datatable(luc)
+
+```
+
+
+Por último, con el paquete [`syuzhet`]() analizo el sentimiento de las intervenciones agrupadas por partido. La función [`syuzhet::get_sentiment()`]() establece un puntaje resumen al texto a partir de la aparición de palabras en diccionarios de sentimientos que identifican cada una como _positiva_ o _negativa_. En este caso vemos el posicionamiento de las menciones de los legisladores que participan en la discusión en la Cámara de Senadores, en la cual las intervenciones de la oposición tienen un puntaje sensiblemente más negativo que los partidos de la coalición.  
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+intervenciones %>%
+  filter(party!="NA")%>%
+  group_by(party) %>%
+  summarise(speech_p = paste(speech, collapse = " "))%>%
+  mutate(Sentiment_syuzhet = syuzhet::get_sentiment(speech_p, method = "syuzhet",language = "spanish"))%>%
+ggplot2::ggplot(ggplot2::aes(x=factor(party, level = c("Frente Amplio","Cabildo Abierto","Partido Colorado","Partido Nacional")), y=Sentiment_syuzhet, color=party))+
+  ggplot2::geom_point(size=5, alpha=0.8) +
+  ggplot2::ggtitle("Análisis de sentimiento por Partido",subtitle = "Discusión sobre Ley de Urgente Consideración (LUC) en la Cámara de Senadores (05/06/2020)")+
+  ggplot2::theme(axis.title.y =element_blank() , axis.text.x =element_blank(),axis.title.x =element_blank(),legend.title=element_blank()) 
+
+```
+
+
 
 
 ## Usos
