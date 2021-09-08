@@ -3,6 +3,8 @@
 
 *Nicolás Schmidt*
 
+*Elina Gómez*
+
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=Nicolas-Schmidt.speech-ejemplos)
 
 ### Índice
@@ -1017,11 +1019,6 @@ necesito obtener información ordenada de todos los diarios de sesión de
 la Cámara de Representantes, entre el 20-11-2014 y el 20-11-2020, lo
 cual incluye sesiones correspondientes a tres legislaturas diferentes.
 
-``` r
-
-sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2020")
-```
-
 Esta función busca simplificar el procedimiento de obtención de URL o
 descarga de diarios de sesión de forma manual, ya que automatiza la
 descarga de las mismas.
@@ -1057,23 +1054,23 @@ conectores, artículos y palabras de menos de tres caracteres, eliminar
 los nombres de los legisladores, las puntuaciones y los números.
 
 ``` r
-corpus_intervenciones <- quanteda::corpus(intervenciones,text_field = "speech")
-dfm_intervenciones <- quanteda::dfm(corpus_intervenciones,
-             stem = FALSE,
-             tolower = TRUE,
-             remove = c(quanteda::stopwords("spanish"),tolower(intervenciones$legislator)), 
-             remove_punct = TRUE, 
-             remove_numbers = TRUE, 
-             verbose = FALSE,
-             groups = "party")
-dfm_intervenciones <- quanteda::dfm_remove(dfm_intervenciones,min_nchar=3)
+library(dplyr)
+dfm_intervenciones <- quanteda::dfm(quanteda::tokens(intervenciones$speech,
+                                    remove_punct = TRUE,
+                                    remove_numbers = TRUE),
+                                    tolower=TRUE,
+                                    verbose = FALSE) %>%
+  quanteda::dfm_remove(pattern = c(quanteda::stopwords("spanish"),tolower(intervenciones$legislator)),min_nchar=3)%>%
+  quanteda::dfm_group(groups = intervenciones$party)
 ```
 
 En segundo lugar, generamos una nube de palabras segmentada por partido
-al que pertenece el legislador:
+al que pertenece el legislador. A partir del análisis de los términos
+más frecuentes se observan diferencias en el foco de la discusión de la
+Ley entre los partidos:
 
 ``` r
-quanteda::textplot_wordcloud(dfm_intervenciones, min.count = 2,max_words = 500,
+quanteda.textplots::textplot_wordcloud(dfm_intervenciones, min.count = 2,max_words = 500,
 random.order = FALSE,colors = RColorBrewer::brewer.pal(8,"Dark2"),comparison = T)
 ```
 
@@ -1087,7 +1084,7 @@ palabras con mayor correlación con dicho término.
 
 ``` r
 
-quanteda::textstat_simil(dfm_intervenciones,selection = "luc",
+quanteda.textstats::textstat_simil(dfm_intervenciones,selection = "luc",
 method = "correlation",margin = "features")%>%
   as.data.frame()%>%
   dplyr::arrange(-correlation)%>%
@@ -1118,7 +1115,9 @@ construir un nuevo corpus y realizar un análisis focalizado y/o
 comparativo.
 
 ``` r
-quanteda::kwic(corpus_intervenciones, 
+quanteda::kwic(quanteda::tokens(intervenciones$speech,
+                                    remove_punct = TRUE,
+                                    remove_numbers = TRUE), 
 pattern = quanteda::phrase(c("ley de urgente consideración")),
 window = 15)
 ```
@@ -1144,7 +1143,7 @@ intervenciones %>%
 ggplot2::ggplot(ggplot2::aes(x=factor(party, level = c("Frente Amplio","Cabildo Abierto","Partido Colorado","Partido Nacional")), y=Sentiment_syuzhet, color=party))+
   ggplot2::geom_point(size=5, alpha=0.8) +
   ggplot2::ggtitle("Análisis de sentimiento por Partido",subtitle = "Discusión sobre Ley de Urgente Consideración (LUC) en la Cámara de Senadores (05/06/2020)")+
-  ggplot2::theme(axis.title.y =element_blank() , axis.text.x =element_blank(),axis.title.x =element_blank(),legend.title=element_blank()) 
+  ggplot2::theme(axis.title.y =ggplot2::element_blank() , axis.text.x =ggplot2::element_blank(),axis.title.x =ggplot2::element_blank(),legend.title=ggplot2::element_blank()) 
 ```
 
 <img src="figures/README-unnamed-chunk-28-1.png" width="80%" />
