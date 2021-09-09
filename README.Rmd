@@ -14,9 +14,7 @@ knitr::opts_chunk$set(
 
 ## Ejemplos y usos del paquete `speech` :page_with_curl: <img src='figures/logo.png' align="right" height="180" />
 
-_Nicolás Schmidt_
-
-_Elina Gómez_
+_Nicolás Schmidt_, _Elina Gómez_
 
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=Nicolas-Schmidt.speech-ejemplos)
 
@@ -29,7 +27,7 @@ _Elina Gómez_
   * [Ejemplo 2: Sesión sobre creación de Consejos de Salarios](#ejemplo-2)
   * [Ejemplo 3: Sesión reciente de la Comisión Permanente](#ejemplo-3)
   * [Ejemplo 4: Descarga de sesiones según rango temporal](#ejemplo-4)
-* [Posibles aplicaciones](#aplic)
+* [Posibles aplicaciones (nube de palabras, tópicos en contexto y análisis de sentimientos)](#posibles-aplicaciones)
 * [Usos de `speech`](#usos)
 * [Aplicación web de `speech` y `puy`](#aplicación-web)
 
@@ -277,7 +275,7 @@ text <- speech::speech_build(file = url, compiler = TRUE)
 print(text, n = nrow(text))
 ```
 
-Ahora podemos agregarle la etiqueta partidaria y el nombre completo a los legisladores con el paquete [`puy`]():
+Ahora podemos agregarle la etiqueta partidaria y el nombre completo a los legisladores con el paquete [`puy`](https://nicolas-schmidt.github.io/puy):
 
 ```{r}
 library(puy)
@@ -292,22 +290,22 @@ Debemos chequear si tenemos la etiqueta partidaria para todos los legisladores:
 text[, c(1,2, 7:ncol(text))]
 ```
 
-Como se puede observar hay un solo diputado o senador que la función [`puy::add_party()`]() no logró identificar. Seguramente sea un diputado o senador suplente. Dependiendo del análisis posterior que se quiera hacer es si se busca por fuentes alternativas la filiación de este legislador o se lo puede descartar. La función [`puy::add_party()`]() además de agregar el partido y el nombre completo del legislador agrega una variable a partir de la función del paquete `speech` que hace un conteo de palabras: [`speech_word_count()`](https://nicolas-schmidt.github.io/speech/reference/speech_word_count.html). Esta variable puede ser de utilidad para estos casos por ejemplo, es decir, descartar a este legislador puede que no tenga un impacto significativo ya que solo dice 10 palabras (las cuales seguramente sean: "Si voto...").
+Como se puede observar hay un solo diputado o senador que la función [`puy::add_party()`](https://nicolas-schmidt.github.io/puy/reference/add_party.html) no logró identificar. Seguramente sea un diputado o senador suplente. Dependiendo del análisis posterior que se quiera hacer es si se busca por fuentes alternativas la filiación de este legislador o se lo puede descartar. La función [`puy::add_party()`](https://nicolas-schmidt.github.io/puy/reference/add_party.html) además de agregar el partido y el nombre completo del legislador agrega una variable a partir de la función del paquete `speech` que hace un conteo de palabras: [`speech_word_count()`](https://nicolas-schmidt.github.io/speech/reference/speech_word_count.html). Esta variable puede ser de utilidad para estos casos por ejemplo, es decir, descartar a este legislador puede que no tenga un impacto significativo ya que solo dice 10 palabras (las cuales seguramente sean: "Si voto...").
 
 
-Por último, si por alguna razón necesitamos, luego de tener la base de datos compilada, que cada fila se corresponda con cada una de las intervención de un legislador y que el texto no se encuentre agrupado, es posible usar la función [`speech::speech_uncompiler()`]() cuyo único argumento _tidy_speech_ se corresponde con el resultado de la aplicación de [`speech_build(., compiler = TRUE)`]().
+Por último, si por alguna razón necesitamos, luego de tener la base de datos compilada, que cada fila se corresponda con cada una de las intervención de un legislador y que el texto no se encuentre agrupado, es posible usar la función [`speech::speech_uncompiler()`](https://nicolas-schmidt.github.io/speech/reference/speech_uncompiler.html) cuyo único argumento _tidy_speech_ se corresponde con el resultado de la aplicación de `speech_build(., compiler = TRUE)`.
 
 ### Ejemplo 4
 
 #### :arrow_forward: Descarga masiva de sesiones correspondiente a un período de tiempo detarminado: Cámara de Representantes del 20-11-2014 al 20-11-2020
 
-Si necesitamos obtener la información sobre las intervenciones correspondiente a un rango de fechas determinado, es posible usar la función [`speech::speech_url()`]() que permite _scrapear_ (descargar directamente de la web) las URL de las sesiones correspondientes y alojarlas en un vector que luego servirá como argumento de la función [`speech::speech_build()`](). 
+Si necesitamos obtener la información sobre las intervenciones correspondiente a un rango de fechas determinado, es posible usar la función [`speech::speech_url()`](https://nicolas-schmidt.github.io/speech/reference/speech_url.html) que permite _scrapear_ (descargar directamente de la web) las URL de las sesiones correspondientes y alojarlas en un vector que luego servirá como argumento de la función [`speech::speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html). 
 Tal como se muestra en el ejemplo, necesito obtener información ordenada de todos los diarios de sesión de la Cámara de Representantes, entre el 20-11-2014 y el 20-11-2020, lo cual incluye sesiones correspondientes a tres legislaturas diferentes.
 
-```{r eval=FALSE, echo = FALSE}
+```{r eval=TRUE, echo = FALSE}
 
 sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2020")
-
+length(sesiones)
 ```
 
 Esta función busca simplificar el procedimiento de obtención de URL o descarga de diarios de sesión de forma manual, ya que automatiza la descarga de las mismas.
@@ -317,7 +315,7 @@ Esta función busca simplificar el procedimiento de obtención de URL o descarga
 
 A continuación se muestran algunas posibles aplicaciones de `speech`, a partir del análisis de los discursos vinculados a la discusión de la _Ley de Urgente Consideración (LUC)_ en la Cámara de Senadores del 5 de junio de 2020.
 
-Al igual que en los ejemplos precedentes, comenzamos utilizando la función [`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html) para descargar las intervenciones que me interesan, así como agregando la etiqueta partidaria con [`puy::add_party()`]().    
+Al igual que en los ejemplos precedentes, comenzamos utilizando la función [`speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html) para descargar las intervenciones que me interesan, así como agregando la etiqueta partidaria con [`puy::add_party()`](https://nicolas-schmidt.github.io/puy/reference/add_party.html).    
 
 ```{r}
 
@@ -339,8 +337,9 @@ dfm_intervenciones <- quanteda::dfm(quanteda::tokens(intervenciones$speech,
                                     remove_numbers = TRUE),
                                     tolower=TRUE,
                                     verbose = FALSE) %>%
-  quanteda::dfm_remove(pattern = c(quanteda::stopwords("spanish"),tolower(intervenciones$legislator)),min_nchar=3)%>%
-  quanteda::dfm_group(groups = intervenciones$party)
+                                    quanteda::dfm_remove(pattern = c(quanteda::stopwords("spanish"), 
+                                                                     tolower(intervenciones$legislator)), min_nchar = 3) %>%
+                                    quanteda::dfm_group(groups = intervenciones$party)
 
 
 ```
@@ -348,18 +347,21 @@ dfm_intervenciones <- quanteda::dfm(quanteda::tokens(intervenciones$speech,
 En segundo lugar, generamos una nube de palabras segmentada por partido al que pertenece el legislador. A partir del análisis de los términos más frecuentes se observan diferencias en el foco de la discusión de la Ley entre los partidos:
 
 ```{r message=FALSE, warning=FALSE}
-quanteda.textplots::textplot_wordcloud(dfm_intervenciones, min.count = 2,max_words = 500,
-random.order = FALSE,colors = RColorBrewer::brewer.pal(8,"Dark2"),comparison = T)
+quanteda.textplots::textplot_wordcloud(dfm_intervenciones, 
+                                       min.count = 2, 
+                                       max_words = 500,
+                                       random.order = FALSE ,
+                                       colors = RColorBrewer::brewer.pal(8,"Dark2"),
+                                       comparison = TRUE)
 
 ```
 
 
-Utilizamos la función [`quanteda::textstat_simil()`]() de _quanteda_ para construir una matriz de distancias (según co-ocurrencia) y calcular la _correlación_ entre un término, en este caso _"luc"_,y otras palabras que aparecen en las intervenciones. A continuación se imprimen las 15 palabras con mayor correlación con dicho término.  
+Utilizamos la función [`quanteda::textstat_simil()`](https://quanteda.io/reference/textstat_simil.html) de _quanteda_ para construir una matriz de distancias (según co-ocurrencia) y calcular la _correlación_ entre un término, en este caso _"luc"_,y otras palabras que aparecen en las intervenciones. A continuación se imprimen las 15 palabras con mayor correlación con dicho término.  
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(dplyr)
-library(ggplot2)
 ```
 
 ```{r message=FALSE, warning=FALSE}
@@ -372,43 +374,56 @@ method = "correlation",margin = "features")%>%
 
 ```
 
-Así también podemos ver con la función [`quanteda::kwic()`]() el contexto de aparición de una palabra, término o frase, según una ventana (cantidad de palabras previas y posteriores) determinada, en este caso 15. Extraer el contexto de ciertos términos puede ser de utilidad para construir un nuevo corpus y realizar un análisis focalizado y/o comparativo.   
+Así también podemos ver con la función [`quanteda::kwic()`](https://quanteda.io/reference/kwic.html) el contexto de aparición de una palabra, término o frase, según una ventana (cantidad de palabras previas y posteriores) determinada, en este caso 15. Extraer el contexto de ciertos términos puede ser de utilidad para construir un nuevo corpus y realizar un análisis focalizado y/o comparativo.   
 
 ```{r eval=FALSE}
 quanteda::kwic(quanteda::tokens(intervenciones$speech,
-                                    remove_punct = TRUE,
-                                    remove_numbers = TRUE), 
-pattern = quanteda::phrase(c("ley de urgente consideración")),
-window = 15)
+                                remove_punct = TRUE,
+                                remove_numbers = TRUE), 
+                                pattern = quanteda::phrase(c("ley de urgente consideración")),
+                                window = 15)
 
 ```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 luc  <-  quanteda::kwic(quanteda::tokens(intervenciones$speech,
-                                    remove_punct = TRUE,
-                                    remove_numbers = TRUE), 
-     pattern = quanteda::phrase(c("ley de urgente consideración")),
-     window = 15)
+                        remove_punct = TRUE,
+                        remove_numbers = TRUE), 
+                        pattern = quanteda::phrase(c("ley de urgente consideración")),
+                        window = 15)
 
 DT::datatable(luc)
 
 ```
 
 
-Por último, con el paquete [`syuzhet`]() analizo el sentimiento de las intervenciones agrupadas por partido. La función [`syuzhet::get_sentiment()`]() establece un puntaje resumen al texto a partir de la aparición de palabras en diccionarios de sentimientos que identifican cada una como _positiva_ o _negativa_. En este caso vemos el posicionamiento de las menciones de los legisladores que participan en la discusión en la Cámara de Senadores, en la cual las intervenciones de la oposición tienen un puntaje sensiblemente más negativo que los partidos de la coalición.  
+Por último, con el paquete [`syuzhet`](https://CRAN.R-project.org/package=syuzhet ) analizo el sentimiento de las intervenciones agrupadas por partido. La función [`syuzhet::get_sentiment()`]() establece un puntaje resumen al texto a partir de la aparición de palabras en diccionarios de sentimientos que identifican cada una como _positiva_ o _negativa_. En este caso vemos el posicionamiento de las menciones de los legisladores que participan en la discusión en la Cámara de Senadores, en la cual las intervenciones de la oposición tienen un puntaje sensiblemente más negativo que los partidos de la coalición.  
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+
 intervenciones %>%
-  filter(party!="NA")%>%
-  group_by(party) %>%
-  summarise(speech_p = paste(speech, collapse = " "))%>%
-  mutate(Sentiment_syuzhet = syuzhet::get_sentiment(speech_p, method = "syuzhet",language = "spanish"))%>%
-ggplot2::ggplot(ggplot2::aes(x=factor(party, level = c("Frente Amplio","Cabildo Abierto","Partido Colorado","Partido Nacional")), y=Sentiment_syuzhet, color=party))+
-  ggplot2::geom_point(size=5, alpha=0.8) +
-  ggplot2::ggtitle("Análisis de sentimiento por Partido",subtitle = "Discusión sobre Ley de Urgente Consideración (LUC) en la Cámara de Senadores (05/06/2020)")+
-  ggplot2::theme(axis.title.y =ggplot2::element_blank() , axis.text.x =ggplot2::element_blank(),axis.title.x =ggplot2::element_blank(),legend.title=ggplot2::element_blank()) 
+    filter(party != "NA") %>%
+    group_by(party) %>%
+    summarise(speech_p = paste(speech, collapse = " ")) %>%
+    mutate(Sentiment_syuzhet = syuzhet::get_sentiment(speech_p, method = "syuzhet", language = "spanish")) %>%
+    ggplot(aes(x = factor(party, level = c("Frente Amplio", 
+                                           "Cabildo Abierto", 
+                                           "Partido Colorado", 
+                                           "Partido Nacional")), 
+               y = Sentiment_syuzhet, color = party)) +
+    geom_point(size = 5, alpha = 0.8) +
+    ggtitle("Análisis de sentimiento por Partido", 
+            subtitle = "Discusión sobre Ley de Urgente Consideración (LUC) en la Cámara de Senadores (05/06/2020)") +
+    geom_hline(yintercept = 0, color = "#4F4D4D") +
+    theme_minimal() +
+    theme(axis.title.y = element_blank(), 
+          axis.title.x = element_blank(),
+          legend.title = element_blank(), 
+          legend.position = "none") 
+
 
 ```
 
