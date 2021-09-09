@@ -1023,7 +1023,11 @@ de todos los diarios de sesión de la Cámara de Representantes, entre el
 20-11-2014 y el 20-11-2020, lo cual incluye sesiones correspondientes a
 tres legislaturas diferentes.
 
-    #> [1] 371
+``` r
+sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2015")
+length(sesiones)
+#> [1] 54
+```
 
 Esta función busca simplificar el procedimiento de obtención de URL o
 descarga de diarios de sesión de forma manual, ya que automatiza la

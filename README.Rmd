@@ -302,9 +302,8 @@ Por último, si por alguna razón necesitamos, luego de tener la base de datos c
 Si necesitamos obtener la información sobre las intervenciones correspondiente a un rango de fechas determinado, es posible usar la función [`speech::speech_url()`](https://nicolas-schmidt.github.io/speech/reference/speech_url.html) que permite _scrapear_ (descargar directamente de la web) las URL de las sesiones correspondientes y alojarlas en un vector que luego servirá como argumento de la función [`speech::speech_build()`](https://nicolas-schmidt.github.io/speech/reference/speech_build.html). 
 Tal como se muestra en el ejemplo, necesito obtener información ordenada de todos los diarios de sesión de la Cámara de Representantes, entre el 20-11-2014 y el 20-11-2020, lo cual incluye sesiones correspondientes a tres legislaturas diferentes.
 
-```{r eval=TRUE, echo = FALSE}
-
-sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2020")
+```{r eval=TRUE, echo = TRUE}
+sesiones <- speech::speech_url(chamber = "D", from = "20-11-2014", to = "20-11-2015")
 length(sesiones)
 ```
 
