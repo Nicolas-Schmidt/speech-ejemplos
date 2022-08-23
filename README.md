@@ -1,5 +1,5 @@
 
-## Ejemplos y usos del paquete `speech` :page\_with\_curl: <img src='figures/logo.png' align="right" height="180" />
+## Ejemplos y usos del paquete `speech` :page_with_curl: <img src='figures/logo.png' align="right" height="180" />
 
 *Nicolás Schmidt*, *Elina Gómez*
 
@@ -109,9 +109,10 @@ Una vez instalado el paquete debe cargarlo en la sesión de trabajo:
 
 ``` r
 library(speech)
+#> Warning: package 'speech' was built under R version 4.1.3
 ```
 
-Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de
+Vamos a ver 4 ejemplos que presentan distintos problemas y niveles de
 complejidad en su procesamiento:
 
 -   El diario de sesión de la Asamblea General de la reapertura
@@ -119,11 +120,13 @@ complejidad en su procesamiento:
 -   Un diario de sesión sobre la creación de los consejos de salarios
     del 13 de octubre de 1941.  
 -   Un diario de sesión reciente de una sesión convencional de la
-    Comisión Permanente del 17 de setiembre de 2019
+    Comisión Permanente del 17 de setiembre de 2019.
+-   Descarga masiva de sesiones correspondiente a un período de tiempo
+    detarminado.
 
 ### Ejemplo 1
 
-###### :arrow\_forward: El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
+###### :arrow_forward: El primer diario de sesión de la Asamblea General desde la reapertura democrática: 15 de febrero de 1985.
 
 Lo primero que vamos a hacer es buscar la url al diario de sesión con el
 que queremos trabajar o los descargamos en el argumento `file` ponemos
@@ -139,36 +142,36 @@ text <- speech::speech_build(file = url)
 
 print(text, n = nrow(text))
 #> # A tibble: 28 x 7
-#>    legislator        speech       chamber  date       legislature id         sex
-#>    <chr>             <chr>        <chr>    <date>           <int> <chr>    <dbl>
-#>  1 PEREYRA           "SEÑOR PER.~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  2 CORDOSO           "SEÑOR CORD~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  3 ROSSI PASSINA     "SEÑOR ROSS~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  4 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  5 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  6 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  7 FERREIRA          "SEÑOR FERR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  8 FElRREIRA Señ     "SEÑOR FElR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  9 RODRIGUEZ CAMUSSO "SEÑOR RODR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 10 RODRIGUEZ CAMUSSO "SEÑOR RODR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 11 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 12 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 13 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 14 PAZ AG            "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 15 CIGLIUTI          "SEÑOR CIGL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 16 CIGLIUTI          "SEÑOR CIGL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 17 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 18 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 19 PIRIESIDENTE      "SEÑOR PIRI~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 20 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 21 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 22 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 23 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 24 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 25 V AILLANT         "SEÑOR V AI~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 26 VAILLANT          "SEÑOR VAIL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 27 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 28 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
+#>    legislator        speech           chamber date       legislature id      sex
+#>    <chr>             <chr>            <chr>   <date>           <int> <chr> <dbl>
+#>  1 PEREYRA           "SEÑOR PER. EYR~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  2 CORDOSO           "SEÑOR CORDOSO.~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  3 ROSSI PASSINA     "SEÑOR ROSSI PA~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  4 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  5 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  6 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  7 FERREIRA          "SEÑOR FERREIRA~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  8 FElRREIRA Señ     "SEÑOR FElRREIR~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  9 RODRIGUEZ CAMUSSO "SEÑOR RODRIGUE~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 10 RODRIGUEZ CAMUSSO "SEÑOR RODRIGUE~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 11 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 12 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 13 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 14 PAZ AG            "SEÑOR PAZ AGUr~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 15 CIGLIUTI          "SEÑOR CIGLIUTI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 16 CIGLIUTI          "SEÑOR CIGLIUTI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 17 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 18 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 19 PIRIESIDENTE      "SEÑOR PIRIESID~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 20 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 21 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 22 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 23 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 24 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 25 VAILLANT          "SEÑOR VAILLANT~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 26 VAILLANT          "SEÑOR VAILLANT~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 27 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 28 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
 ```
 
 Si bien la base de datos llamada `text` luce bien (hay legisladores, se
@@ -195,35 +198,35 @@ text <- speech::speech_build(file = url, rm.error.leg = "PIRIESIDENTE")
 
 print(text, n = nrow(text))
 #> # A tibble: 27 x 7
-#>    legislator        speech       chamber  date       legislature id         sex
-#>    <chr>             <chr>        <chr>    <date>           <int> <chr>    <dbl>
-#>  1 PEREYRA           "SEÑOR PER.~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  2 CORDOSO           "SEÑOR CORD~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  3 ROSSI PASSINA     "SEÑOR ROSS~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  4 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  5 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  6 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  7 FERREIRA          "SEÑOR FERR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  8 FElRREIRA Señ     "SEÑOR FElR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#>  9 RODRIGUEZ CAMUSSO "SEÑOR RODR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 10 RODRIGUEZ CAMUSSO "SEÑOR RODR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 11 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 12 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 13 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 14 PAZ AG            "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 15 CIGLIUTI          "SEÑOR CIGL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 16 CIGLIUTI          "SEÑOR CIGL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 17 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 18 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 19 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 20 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 21 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 22 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 23 PAZ AGUIRRE       "SEÑOR PAZ ~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 24 V AILLANT         "SEÑOR V AI~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 25 VAILLANT          "SEÑOR VAIL~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 26 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
-#> 27 TOURNE            "SEÑOR TOUR~ ASAMBLE~ 1985-02-15          42 0?width~     1
+#>    legislator        speech           chamber date       legislature id      sex
+#>    <chr>             <chr>            <chr>   <date>           <int> <chr> <dbl>
+#>  1 PEREYRA           "SEÑOR PER. EYR~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  2 CORDOSO           "SEÑOR CORDOSO.~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  3 ROSSI PASSINA     "SEÑOR ROSSI PA~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  4 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  5 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  6 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  7 FERREIRA          "SEÑOR FERREIRA~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  8 FElRREIRA Señ     "SEÑOR FElRREIR~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#>  9 RODRIGUEZ CAMUSSO "SEÑOR RODRIGUE~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 10 RODRIGUEZ CAMUSSO "SEÑOR RODRIGUE~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 11 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 12 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 13 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 14 PAZ AG            "SEÑOR PAZ AGUr~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 15 CIGLIUTI          "SEÑOR CIGLIUTI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 16 CIGLIUTI          "SEÑOR CIGLIUTI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 17 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 18 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 19 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 20 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 21 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 22 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 23 PAZ AGUIRRE       "SEÑOR PAZ AGUI~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 24 VAILLANT          "SEÑOR VAILLANT~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 25 VAILLANT          "SEÑOR VAILLANT~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 26 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
+#> 27 TOURNE            "SEÑOR TOURNE. ~ ASAMBL~ 1985-02-15          42 0?wi~     1
 ```
 
 Como se puede ver en la nueva base de datos `text` ya no aparece la fila
@@ -242,7 +245,7 @@ legisladores: `speech_legis_replace`.
 Vamos a chequear los nombres:
 
 ``` r
-speech_check(text)
+speech::speech_check(text)
 #> $C
 #>   legislator
 #> 1   CIGLIUTI
@@ -270,8 +273,7 @@ speech_check(text)
 #> 
 #> $V
 #>   legislator
-#> 1  V AILLANT
-#> 2   VAILLANT
+#> 1   VAILLANT
 ```
 
 La función `speech_check()` devuelve una lista de nombres ordenados por
@@ -283,10 +285,10 @@ errores: en los legisladores que inicial con **F**, con **P** y con
 Ahora vamos a cambiar los nombres que están mal:
 
 ``` r
-text <- speech_legis_replace(text, old = "FElRREIRA Señ",  new = "FERREIRA")
-text <- speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
-text <- speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
-text <- speech_legis_replace(text, old = "CORDOSO",  new = "CARDOSO")
+text <- speech::speech_legis_replace(text, old = "FElRREIRA Señ",  new = "FERREIRA")
+text <- speech::speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
+text <- speech::speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
+text <- speech::speech_legis_replace(text, old = "CORDOSO",  new = "CARDOSO")
 ```
 
 Con esta función lo que hacemos es modificar la base construida (es
@@ -295,7 +297,7 @@ decir el objeto `text`) por eso debemos sobrescribirla.
 Ahora debemos chequear que los cambios se realizaron de manera correcta:
 
 ``` r
-speech_check(text)
+speech::speech_check(text)
 #> $C
 #>   legislator
 #> 1    CARDOSO
@@ -329,20 +331,20 @@ recompilar el diario de sesión. Tenemos que recompilarlo ya que hemos
 modificado la compilación inicial.
 
 ``` r
-text2 <- speech_recompiler(tidy_speech = text)
+text2 <- speech::speech_recompiler(tidy_speech = text)
 print(text2, n = nrow(text2))
 #> # A tibble: 9 x 7
-#>   legislator        legislature chamber          date       id       sex speech 
-#>   <chr>                   <int> <chr>            <date>     <chr>  <dbl> <chr>  
-#> 1 CARDOSO                    42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 2 CIGLIUTI                   42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 3 FERREIRA                   42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 4 PAZ AGUIRRE                42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 5 PEREYRA                    42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 6 RODRIGUEZ CAMUSSO          42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 7 ROSSI PASSINA              42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 8 TOURNE                     42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
-#> 9 VAILLANT                   42 ASAMBLEA GENERAL 1985-02-15 0?wid~     1 "SEÑOR~
+#>   legislator        legislature chamber          date       id        sex speech
+#>   <chr>                   <int> <chr>            <date>     <chr>   <dbl> <chr> 
+#> 1 CARDOSO                    42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 2 CIGLIUTI                   42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 3 FERREIRA                   42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 4 PAZ AGUIRRE                42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 5 PEREYRA                    42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 6 RODRIGUEZ CAMUSSO          42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 7 ROSSI PASSINA              42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 8 TOURNE                     42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
+#> 9 VAILLANT                   42 ASAMBLEA GENERAL 1985-02-15 0?widt~     1 "SEÑO~
 ```
 
 Una vez que tenemos la base final (`text2`) ahora podemos proceder a
@@ -371,25 +373,25 @@ datos
 
 ### Ejemplo 2
 
-###### :arrow\_forward: Un diario de sesión sobre la creación de los consejos de salarios del 13 de octubre de 1941.
+###### :arrow_forward: Un diario de sesión sobre la creación de los consejos de salarios del 13 de octubre de 1941.
 
 ``` r
 text <- speech::speech_build(file = "speech_example.pdf")
 print(text)
-#> # A tibble: 130 x 7
-#>    legislator   speech                   chamber date   legislature id       sex
-#>    <chr>        <chr>                    <chr>   <date>       <int> <chr>  <dbl>
-#>  1 ITURBIDE     "SEÑOR ITURBIDE. — Ha l~ <NA>    NA              NA speec~     1
-#>  2 DAMBORIARENA "SEÑOR DAMBORIARENA. — ~ <NA>    NA              NA speec~     1
-#>  3 MOREIRA      "SEÑOR MOREIRA. — Señor~ <NA>    NA              NA speec~     1
-#>  4 GOMEZ        "SEÑOR GOMEZ. — Se ha r~ <NA>    NA              NA speec~     1
-#>  5 BRUNO        "SEÑOR BRUNO, — Señor P~ <NA>    NA              NA speec~     1
-#>  6 CERSOSIMO    "SEÑOR CERSOSIMO. —=¦ Y~ <NA>    NA              NA speec~     1
-#>  7 PUIG         "SEÑOR PUIG. — Señor Pr~ <NA>    NA              NA speec~     1
-#>  8 SALGADO      "SEÑOR SALGADO. — Pido ~ <NA>    NA              NA speec~     1
-#>  9 SALGADO      "SEÑOR SALGADO. ~ Tengo~ <NA>    NA              NA speec~     1
-#> 10 SALGADO      "SEÑOR SALGADO. — Ya sé~ <NA>    NA              NA speec~     1
-#> # ... with 120 more rows
+#> # A tibble: 123 x 7
+#>    legislator   speech                chamber date   legislature id          sex
+#>    <chr>        <chr>                 <chr>   <date>       <int> <chr>     <dbl>
+#>  1 ITURBIDE     "SEÑOR ITURBIDE. — H~ <NA>    NA              NA speech_e~     1
+#>  2 DAMBORIARENA "SEÑOR DAMBORIARENA.~ <NA>    NA              NA speech_e~     1
+#>  3 MOREIRA      "SEÑOR MOREIRA. — Se~ <NA>    NA              NA speech_e~     1
+#>  4 GOMEZ        "SEÑOR GOMEZ. — Se h~ <NA>    NA              NA speech_e~     1
+#>  5 BRUNO        "SEÑOR BRUNO, — Seño~ <NA>    NA              NA speech_e~     1
+#>  6 CERSOSIMO    "SEÑOR CERSOSIMO. — ~ <NA>    NA              NA speech_e~     1
+#>  7 PUIG         "SEÑOR PUIG. — Señor~ <NA>    NA              NA speech_e~     1
+#>  8 SALGADO      "SEÑOR SALGADO. — Pi~ <NA>    NA              NA speech_e~     1
+#>  9 SALGADO      "SEÑOR SALGADO. ~ Te~ <NA>    NA              NA speech_e~     1
+#> 10 SALGADO      "SEÑOR SALGADO. — Ya~ <NA>    NA              NA speech_e~     1
+#> # ... with 113 more rows
 ```
 
 Lo primero que vemos es que aparecen errores en nombres, la variable
@@ -398,7 +400,7 @@ pauta de que el documento no es de muy buena calidad. Vamos a chequear
 los nombres de los legisladores previo a compilar:
 
 ``` r
-speech_check(text)
+speech::speech_check(text)
 #> $A
 #>   legislator
 #> 1    ANTUNEZ
@@ -438,7 +440,6 @@ speech_check(text)
 #> $F
 #>         legislator
 #> 1 FERNANDEZ CRESPO
-#> 2            FUJLG
 #> 
 #> $G
 #>   legislator
@@ -460,9 +461,7 @@ speech_check(text)
 #> 1        MARTINEZ
 #> 2     miRBTDE Pid
 #> 3         MOREIRA
-#> 4  MORENO ERADLOS
-#> 5   MORENO RALLOS
-#> 6 MORENO ZEBALLOS
+#> 4 MORENO ZEBALLOS
 #> 
 #> $O
 #>   legislator
@@ -471,13 +470,13 @@ speech_check(text)
 #> 3      OTERO
 #> 
 #> $P
-#>           legislator
-#> 1 P R E S ID E N T E
-#> 2         PRENOTENTE
-#> 3        PRPJSIDENTE
-#> 4         PUaU tSiio
-#> 5               PUIG
-#> 6               PUTG
+#>            legislator
+#> 1 P R E S I D E N T E
+#> 2          PRENOTENTE
+#> 3         PRPJSIDENTE
+#> 4          PUaU tSiio
+#> 5                PUIG
+#> 6                PUTG
 #> 
 #> $R
 #>            legislator
@@ -490,6 +489,7 @@ speech_check(text)
 #> $S
 #>   legislator
 #> 1    SALGADO
+#> 2       SEÑO
 #> 
 #> $T
 #>   legislator
@@ -498,9 +498,8 @@ speech_check(text)
 #> 3   TROITIÑO
 #> 4   TTERBIDE
 #> 5    TTJBINO
-#> 6    TTTBTNO
-#> 7     TUBINO
-#> 8     TURINO
+#> 6     TUBINO
+#> 7     TURINO
 ```
 
 Vemos que hay errores de dos tipos. El primero es de presidentes que no
@@ -516,7 +515,7 @@ text <- speech::speech_build(file = "speech_example.pdf",
                                               "PRPJSIDENTE", 
                                               "PRPJSIDENTE", 
                                               "PRENOTENTE"))
-speech_check(text)
+speech::speech_check(text)
 #> $A
 #>   legislator
 #> 1    ANTUNEZ
@@ -556,7 +555,6 @@ speech_check(text)
 #> $F
 #>         legislator
 #> 1 FERNANDEZ CRESPO
-#> 2            FUJLG
 #> 
 #> $G
 #>   legislator
@@ -578,9 +576,7 @@ speech_check(text)
 #> 1        MARTINEZ
 #> 2     miRBTDE Pid
 #> 3         MOREIRA
-#> 4  MORENO ERADLOS
-#> 5   MORENO RALLOS
-#> 6 MORENO ZEBALLOS
+#> 4 MORENO ZEBALLOS
 #> 
 #> $O
 #>   legislator
@@ -589,10 +585,11 @@ speech_check(text)
 #> 3      OTERO
 #> 
 #> $P
-#>   legislator
-#> 1 PUaU tSiio
-#> 2       PUIG
-#> 3       PUTG
+#>            legislator
+#> 1 P R E S I D E N T E
+#> 2          PUaU tSiio
+#> 3                PUIG
+#> 4                PUTG
 #> 
 #> $R
 #>            legislator
@@ -605,6 +602,7 @@ speech_check(text)
 #> $S
 #>   legislator
 #> 1    SALGADO
+#> 2       SEÑO
 #> 
 #> $T
 #>   legislator
@@ -613,9 +611,8 @@ speech_check(text)
 #> 3   TROITIÑO
 #> 4   TTERBIDE
 #> 5    TTJBINO
-#> 6    TTTBTNO
-#> 7     TUBINO
-#> 8     TURINO
+#> 6     TUBINO
+#> 7     TURINO
 ```
 
 Solucionado este problema ahora pasamos al problema de los nombres de
@@ -708,8 +705,9 @@ speech_check(text)
 #> 2      OTERO
 #> 
 #> $P
-#>   legislator
-#> 1       PUIG
+#>            legislator
+#> 1 P R E S I D E N T E
+#> 2                PUIG
 #> 
 #> $R
 #>        legislator
@@ -718,6 +716,7 @@ speech_check(text)
 #> $S
 #>   legislator
 #> 1    SALGADO
+#> 2       SEÑO
 #> 
 #> $T
 #>   legislator
@@ -739,36 +738,38 @@ text$chamber     <- "CAMARA DE REPRESENTANTES"
 text2 <- speech_recompiler(text)
 #> Warning: Variables that are in 'compiler_by' contain NA values: date
 print(text2, n = Inf)
-#> # A tibble: 27 x 7
-#>    legislator              legislature chamber      date   id       sex speech  
-#>    <chr>                         <int> <chr>        <date> <chr>  <dbl> <chr>   
-#>  1 ANTUNEZ                          33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  2 ARISMENDI                        33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  3 BRENA                            33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  4 BRUNERAU DES HOUILLERES          33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  5 BRUNO                            33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  6 BURANELLI                        33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  7 CALLERIZA                        33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  8 CARDOSO                          33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#>  9 CERSOSIMO                        33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 10 CHOUHY TERRA                     33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 11 DAMBORIARENA                     33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 12 ESPALTER                         33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 13 FERNANDEZ CRESPO                 33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 14 GARZON                           33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 15 GOMEZ                            33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 16 GONZALEZ                         33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 17 ITURBIDE                         33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 18 MARTINEZ                         33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 19 MOREIRA                          33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 20 MORENO ZEBALLOS                  33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 21 OIS                              33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 22 OTERO                            33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 23 PUIG                             33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 24 RODRIGUEZ ROCHA                  33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 25 SALGADO                          33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 26 TROITIÑO                         33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
-#> 27 TUBINO                           33 CAMARA DE R~ NA     speec~     1 "SEÑOR ~
+#> # A tibble: 29 x 7
+#>    legislator              legislature chamber     date   id          sex speech
+#>    <chr>                         <int> <chr>       <date> <chr>     <dbl> <chr> 
+#>  1 ANTUNEZ                          33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  2 ARISMENDI                        33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  3 BRENA                            33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  4 BRUNERAU DES HOUILLERES          33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  5 BRUNO                            33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  6 BURANELLI                        33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  7 CALLERIZA                        33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  8 CARDOSO                          33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#>  9 CERSOSIMO                        33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 10 CHOUHY TERRA                     33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 11 DAMBORIARENA                     33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 12 ESPALTER                         33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 13 FERNANDEZ CRESPO                 33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 14 GARZON                           33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 15 GOMEZ                            33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 16 GONZALEZ                         33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 17 ITURBIDE                         33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 18 MARTINEZ                         33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 19 MOREIRA                          33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 20 MORENO ZEBALLOS                  33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 21 OIS                              33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 22 OTERO                            33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 23 P R E S I D E N T E              33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 24 PUIG                             33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 25 RODRIGUEZ ROCHA                  33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 26 SALGADO                          33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 27 SEÑO                             33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 28 TROITIÑO                         33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
+#> 29 TUBINO                           33 CAMARA DE ~ NA     speech_e~     1 "SEÑO~
 ```
 
 Como se observa, el objeto `text2` que contiene nuestro diario de sesión
@@ -781,40 +782,42 @@ library(puy)
 text2 <- add_party(text2)
 
 print(text2, n = nrow(text2))
-#> # A tibble: 31 x 12
-#>    legislator      legislature chamber  date   id     speech     sex legislator2
-#>    <chr>                 <int> <chr>    <date> <chr>  <chr>    <dbl> <chr>      
-#>  1 ANTUNEZ                  33 CAMARA ~ NA     speec~ "SEÑOR ~     1 ANTUNEZ MA~
-#>  2 ARISMENDI                33 CAMARA ~ NA     speec~ "SEÑOR ~     1 ARISMENDI,~
-#>  3 BRENA                    33 CAMARA ~ NA     speec~ "SEÑOR ~     1 BRENA, Tom~
-#>  4 BRUNERAU DES H~          33 CAMARA ~ NA     speec~ "SEÑOR ~     1 BRUNERAU D~
-#>  5 BRUNO                    33 CAMARA ~ NA     speec~ "SEÑOR ~     1 BRUNO, Jos~
-#>  6 BURANELLI                33 CAMARA ~ NA     speec~ "SEÑOR ~     1 BURANELLI,~
-#>  7 CALLERIZA                33 CAMARA ~ NA     speec~ "SEÑOR ~     1 CALLERIZA,~
-#>  8 CARDOSO                  33 CAMARA ~ NA     speec~ "SEÑOR ~     1 CARDOSO, J~
-#>  9 CERSOSIMO                33 CAMARA ~ NA     speec~ "SEÑOR ~     1 CERSOSIMO,~
-#> 10 CHOUHY TERRA             33 CAMARA ~ NA     speec~ "SEÑOR ~     1 CHOUHY TER~
-#> 11 CHOUHY TERRA             33 CAMARA ~ NA     speec~ "SEÑOR ~     1 CHOUHY TER~
-#> 12 DAMBORIARENA             33 CAMARA ~ NA     speec~ "SEÑOR ~     1 DAMBORIARE~
-#> 13 ESPALTER                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 ESPALTER, ~
-#> 14 FERNANDEZ CRES~          33 CAMARA ~ NA     speec~ "SEÑOR ~     1 FERNANDEZ ~
-#> 15 GARZON                   33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GARZON, Ex~
-#> 16 GOMEZ                    33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GOMEZ, Eug~
-#> 17 GONZALEZ                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GONZALEZ, ~
-#> 18 GONZALEZ                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GONZALEZ, ~
-#> 19 GONZALEZ                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GONZALEZ, ~
-#> 20 GONZALEZ                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 GONZALEZ, ~
-#> 21 ITURBIDE                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 ITURBIDE, ~
-#> 22 MARTINEZ                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 MARTINEZ, ~
-#> 23 MOREIRA                  33 CAMARA ~ NA     speec~ "SEÑOR ~     1 MOREIRA, J~
-#> 24 MORENO ZEBALLOS          33 CAMARA ~ NA     speec~ "SEÑOR ~     1 MORENO ZEB~
-#> 25 OIS                      33 CAMARA ~ NA     speec~ "SEÑOR ~     1 OIS, Martin
-#> 26 OTERO                    33 CAMARA ~ NA     speec~ "SEÑOR ~     1 OTERO, Juan
-#> 27 PUIG                     33 CAMARA ~ NA     speec~ "SEÑOR ~     1 PUIG, Vent~
-#> 28 RODRIGUEZ ROCHA          33 CAMARA ~ NA     speec~ "SEÑOR ~     1 RODRIGUEZ ~
-#> 29 SALGADO                  33 CAMARA ~ NA     speec~ "SEÑOR ~     1 SALGADO, R~
-#> 30 TROITIÑO                 33 CAMARA ~ NA     speec~ "SEÑOR ~     1 TROITIÑO, ~
-#> 31 TUBINO                   33 CAMARA ~ NA     speec~ "SEÑOR ~     1 TUBINO, Ar~
+#> # A tibble: 33 x 12
+#>    legislator      legislature chamber date   id        speech   sex legislator2
+#>    <chr>                 <int> <chr>   <date> <chr>     <chr>  <dbl> <chr>      
+#>  1 ANTUNEZ                  33 CAMARA~ NA     speech_e~ "SEÑO~     1 ANTUNEZ MA~
+#>  2 ARISMENDI                33 CAMARA~ NA     speech_e~ "SEÑO~     1 ARISMENDI,~
+#>  3 BRENA                    33 CAMARA~ NA     speech_e~ "SEÑO~     1 BRENA, Tom~
+#>  4 BRUNERAU DES H~          33 CAMARA~ NA     speech_e~ "SEÑO~     1 BRUNERAU D~
+#>  5 BRUNO                    33 CAMARA~ NA     speech_e~ "SEÑO~     1 BRUNO, Jos~
+#>  6 BURANELLI                33 CAMARA~ NA     speech_e~ "SEÑO~     1 BURANELLI,~
+#>  7 CALLERIZA                33 CAMARA~ NA     speech_e~ "SEÑO~     1 CALLERIZA,~
+#>  8 CARDOSO                  33 CAMARA~ NA     speech_e~ "SEÑO~     1 CARDOSO, J~
+#>  9 CERSOSIMO                33 CAMARA~ NA     speech_e~ "SEÑO~     1 CERSOSIMO,~
+#> 10 CHOUHY TERRA             33 CAMARA~ NA     speech_e~ "SEÑO~     1 CHOUHY TER~
+#> 11 CHOUHY TERRA             33 CAMARA~ NA     speech_e~ "SEÑO~     1 CHOUHY TER~
+#> 12 DAMBORIARENA             33 CAMARA~ NA     speech_e~ "SEÑO~     1 DAMBORIARE~
+#> 13 ESPALTER                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 ESPALTER, ~
+#> 14 FERNANDEZ CRES~          33 CAMARA~ NA     speech_e~ "SEÑO~     1 FERNANDEZ ~
+#> 15 GARZON                   33 CAMARA~ NA     speech_e~ "SEÑO~     1 GARZON, Ex~
+#> 16 GOMEZ                    33 CAMARA~ NA     speech_e~ "SEÑO~     1 GOMEZ, Eug~
+#> 17 GONZALEZ                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 GONZALEZ, ~
+#> 18 GONZALEZ                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 GONZALEZ, ~
+#> 19 GONZALEZ                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 GONZALEZ, ~
+#> 20 GONZALEZ                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 GONZALEZ, ~
+#> 21 ITURBIDE                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 ITURBIDE, ~
+#> 22 MARTINEZ                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 MARTINEZ, ~
+#> 23 MOREIRA                  33 CAMARA~ NA     speech_e~ "SEÑO~     1 MOREIRA, J~
+#> 24 MORENO ZEBALLOS          33 CAMARA~ NA     speech_e~ "SEÑO~     1 MORENO ZEB~
+#> 25 OIS                      33 CAMARA~ NA     speech_e~ "SEÑO~     1 OIS, Martin
+#> 26 OTERO                    33 CAMARA~ NA     speech_e~ "SEÑO~     1 OTERO, Juan
+#> 27 P R E S I D E ~          33 CAMARA~ NA     speech_e~ "SEÑO~     1 <NA>       
+#> 28 PUIG                     33 CAMARA~ NA     speech_e~ "SEÑO~     1 PUIG, Vent~
+#> 29 RODRIGUEZ ROCHA          33 CAMARA~ NA     speech_e~ "SEÑO~     1 RODRIGUEZ ~
+#> 30 SALGADO                  33 CAMARA~ NA     speech_e~ "SEÑO~     1 SALGADO, R~
+#> 31 SEÑO                     33 CAMARA~ NA     speech_e~ "SEÑO~     1 <NA>       
+#> 32 TROITIÑO                 33 CAMARA~ NA     speech_e~ "SEÑO~     1 TROITIÑO, ~
+#> 33 TUBINO                   33 CAMARA~ NA     speech_e~ "SEÑO~     1 TUBINO, Ar~
 #> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
 #> #   words <dbl>
 ```
@@ -833,41 +836,43 @@ por terminado el procesamiento de este diario de sesión.
 ``` r
 text2 <- text2[-c(11, 17, 18, 19),] # marcamos las filas en las que están los legisladores que se deben ir
 print(text2[, c(1,2, 7:ncol(text2))], n = Inf)
-#> # A tibble: 27 x 8
-#>    legislator  legislature   sex legislator2  party  party_acron indicator words
-#>    <chr>             <int> <dbl> <chr>        <chr>  <chr>           <int> <dbl>
-#>  1 ANTUNEZ              33     1 ANTUNEZ MAC~ Parti~ PCGR                2   326
-#>  2 ARISMENDI            33     1 ARISMENDI, ~ Parti~ PC                  1   217
-#>  3 BRENA                33     1 BRENA, Tomas Union~ UC                  1   267
-#>  4 BRUNERAU D~          33     1 BRUNERAU DE~ Parti~ PC                  1     7
-#>  5 BRUNO                33     1 BRUNO, Jose~ Parti~ PN                  1   473
-#>  6 BURANELLI            33     1 BURANELLI, ~ Parti~ PN                  1   393
-#>  7 CALLERIZA            33     1 CALLERIZA, ~ Parti~ PC                  1   546
-#>  8 CARDOSO              33     1 CARDOSO, Jo~ Parti~ PS                  1   161
-#>  9 CERSOSIMO            33     1 CERSOSIMO, ~ Parti~ PC                  1   961
-#> 10 CHOUHY TER~          33     1 CHOUHY TERR~ Parti~ PC                  1   174
-#> 11 DAMBORIARE~          33     1 DAMBORIAREN~ Parti~ PN                  1   504
-#> 12 ESPALTER             33     1 ESPALTER, A~ Parti~ PC                  1    44
-#> 13 FERNANDEZ ~          33     1 FERNANDEZ C~ Parti~ PN                  1  1396
-#> 14 GARZON               33     1 GARZON, Exe~ Parti~ PC                  1   614
-#> 15 GOMEZ                33     1 GOMEZ, Euge~ Parti~ PCU                 1   372
-#> 16 GONZALEZ             33     1 GONZALEZ, C~ Parti~ PN                  1    54
-#> 17 ITURBIDE             33     1 ITURBIDE, J~ Parti~ PC                  1   970
-#> 18 MARTINEZ             33     1 MARTINEZ, E~ Parti~ PC                  1   320
-#> 19 MOREIRA              33     1 MOREIRA, Ju~ Parti~ PC                  1   733
-#> 20 MORENO ZEB~          33     1 MORENO ZEBA~ Parti~ PC                  1   807
-#> 21 OIS                  33     1 OIS, Martin  Parti~ PN                  1   418
-#> 22 OTERO                33     1 OTERO, Juan  Parti~ PC                  1    97
-#> 23 PUIG                 33     1 PUIG, Ventu~ Parti~ PN                  1  1111
-#> 24 RODRIGUEZ ~          33     1 RODRIGUEZ R~ Parti~ PC                  1   981
-#> 25 SALGADO              33     1 SALGADO, Ra~ Parti~ PN                  1  1269
-#> 26 TROITIÑO             33     1 TROITIÑO, L~ Parti~ PS                  1  1074
-#> 27 TUBINO               33     1 TUBINO, Arm~ Parti~ PN                  1   522
+#> # A tibble: 29 x 8
+#>    legislator    legislature   sex legislator2 party party_acron indicator words
+#>    <chr>               <int> <dbl> <chr>       <chr> <chr>           <int> <dbl>
+#>  1 ANTUNEZ                33     1 ANTUNEZ MA~ Part~ PCGR                2   327
+#>  2 ARISMENDI              33     1 ARISMENDI,~ Part~ PC                  1   217
+#>  3 BRENA                  33     1 BRENA, Tom~ Unio~ UC                  1   304
+#>  4 BRUNERAU DES~          33     1 BRUNERAU D~ Part~ PC                  1     7
+#>  5 BRUNO                  33     1 BRUNO, Jos~ Part~ PN                  1   462
+#>  6 BURANELLI              33     1 BURANELLI,~ Part~ PN                  1   394
+#>  7 CALLERIZA              33     1 CALLERIZA,~ Part~ PC                  1   540
+#>  8 CARDOSO                33     1 CARDOSO, J~ Part~ PS                  1   162
+#>  9 CERSOSIMO              33     1 CERSOSIMO,~ Part~ PC                  1   953
+#> 10 CHOUHY TERRA           33     1 CHOUHY TER~ Part~ PC                  1   174
+#> 11 DAMBORIARENA           33     1 DAMBORIARE~ Part~ PN                  1   505
+#> 12 ESPALTER               33     1 ESPALTER, ~ Part~ PC                  1    44
+#> 13 FERNANDEZ CR~          33     1 FERNANDEZ ~ Part~ PN                  1  1430
+#> 14 GARZON                 33     1 GARZON, Ex~ Part~ PC                  1   451
+#> 15 GOMEZ                  33     1 GOMEZ, Eug~ Part~ PCU                 1   371
+#> 16 GONZALEZ               33     1 GONZALEZ, ~ Part~ PN                  1    54
+#> 17 ITURBIDE               33     1 ITURBIDE, ~ Part~ PC                  1   958
+#> 18 MARTINEZ               33     1 MARTINEZ, ~ Part~ PC                  1  1010
+#> 19 MOREIRA                33     1 MOREIRA, J~ Part~ PC                  1   708
+#> 20 MORENO ZEBAL~          33     1 MORENO ZEB~ Part~ PC                  1   144
+#> 21 OIS                    33     1 OIS, Martin Part~ PN                  1     8
+#> 22 OTERO                  33     1 OTERO, Juan Part~ PC                  1    98
+#> 23 P R E S I D ~          33     1 <NA>        <NA>  <NA>               NA    12
+#> 24 PUIG                   33     1 PUIG, Vent~ Part~ PN                  1  1070
+#> 25 RODRIGUEZ RO~          33     1 RODRIGUEZ ~ Part~ PC                  1  1004
+#> 26 SALGADO                33     1 SALGADO, R~ Part~ PN                  1  1255
+#> 27 SEÑO                   33     1 <NA>        <NA>  <NA>               NA   163
+#> 28 TROITIÑO               33     1 TROITIÑO, ~ Part~ PS                  1  1076
+#> 29 TUBINO                 33     1 TUBINO, Ar~ Part~ PN                  1   484
 ```
 
 ### Ejemplo 3
 
-#### :arrow\_forward: Un diario de sesión reciente de una sesión convencional de la Comisión Permanente del 17 de setiembre de 2019
+#### :arrow_forward: Un diario de sesión reciente de una sesión convencional de la Comisión Permanente del 17 de setiembre de 2019
 
 Tomamos un diario de sesión reciente y aplicamos el mismo criterio que
 con los diarios anteriores: usamos
@@ -882,32 +887,32 @@ text <- speech::speech_build(file = url)
 
 print(text, n = nrow(text))
 #> # A tibble: 24 x 7
-#>    legislator speech          chamber   date       legislature id            sex
-#>    <chr>      <chr>           <chr>     <date>           <int> <chr>       <dbl>
-#>  1 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  2 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  3 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
-#>  4 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
-#>  5 GOÑI       SEÑOR GOÑI. Pi~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  6 GOÑI       SEÑOR GOÑI. El~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  7 MAHIA      SEÑOR MAHIA. P~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  8 MAHIA      SEÑOR MAHIA. G~ COMISION~ 2019-09-17          48 0?width=80~     1
-#>  9 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 10 ASTI       SEÑOR ASTI. Ob~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 11 AVIAGA     SEÑORA AVIAGA.~ COMISION~ 2019-09-17          48 0?width=80~     0
-#> 12 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 13 GOÑI       SEÑOR GOÑI. Vo~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 14 LAZO       SEÑORA LAZO. V~ COMISION~ 2019-09-17          48 0?width=80~     0
-#> 15 MAHIA      SEÑOR MAHIA. V~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 16 MERONI     SEÑOR MERONI. ~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 17 PEREYRA    SEÑORA PEREYRA~ COMISION~ 2019-09-17          48 0?width=80~     0
-#> 18 TOURNE     SEÑORA TOURNE.~ COMISION~ 2019-09-17          48 0?width=80~     0
-#> 19 VIERA      SEÑOR VIERA. V~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 20 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 21 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 22 BORDABERRY SEÑOR BORDABER~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 23 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
-#> 24 ABDALA     SEÑOR ABDALA. ~ COMISION~ 2019-09-17          48 0?width=80~     1
+#>    legislator speech                  chamber date       legislature id      sex
+#>    <chr>      <chr>                   <chr>   <date>           <int> <chr> <dbl>
+#>  1 BORDABERRY SEÑOR BORDABERRY. Pido~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  2 BORDABERRY SEÑOR BORDABERRY. Prop~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  3 AVIAGA     SEÑORA AVIAGA. Pido la~ COMISI~ 2019-09-17          48 0?wi~     0
+#>  4 AVIAGA     SEÑORA AVIAGA. En el m~ COMISI~ 2019-09-17          48 0?wi~     0
+#>  5 GOÑI       SEÑOR GOÑI. Pido la pa~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  6 GOÑI       SEÑOR GOÑI. El Frente ~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  7 MAHIA      SEÑOR MAHIA. Pido la p~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  8 MAHIA      SEÑOR MAHIA. Gracias, ~ COMISI~ 2019-09-17          48 0?wi~     1
+#>  9 ABDALA     SEÑOR ABDALA. Voto por~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 10 ASTI       SEÑOR ASTI. Obviamente~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 11 AVIAGA     SEÑORA AVIAGA. Voto po~ COMISI~ 2019-09-17          48 0?wi~     0
+#> 12 BORDABERRY SEÑOR BORDABERRY. Voto~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 13 GOÑI       SEÑOR GOÑI. Voto por D~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 14 LAZO       SEÑORA LAZO. Voto por ~ COMISI~ 2019-09-17          48 0?wi~     0
+#> 15 MAHIA      SEÑOR MAHIA. Voto por ~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 16 MERONI     SEÑOR MERONI. Voto, co~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 17 PEREYRA    SEÑORA PEREYRA. Con mu~ COMISI~ 2019-09-17          48 0?wi~     0
+#> 18 TOURNE     SEÑORA TOURNE. Voy a v~ COMISI~ 2019-09-17          48 0?wi~     0
+#> 19 VIERA      SEÑOR VIERA. Voto por ~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 20 BORDABERRY SEÑOR BORDABERRY. Pido~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 21 BORDABERRY SEÑOR BORDABERRY. En l~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 22 BORDABERRY SEÑOR BORDABERRY. El s~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 23 ABDALA     SEÑOR ABDALA. Pido la ~ COMISI~ 2019-09-17          48 0?wi~     1
+#> 24 ABDALA     SEÑOR ABDALA. Señora p~ COMISI~ 2019-09-17          48 0?wi~     1
 ```
 
 Este diario de sesión no presenta problemas en los nombres de los
@@ -919,19 +924,19 @@ text <- speech::speech_build(file = url, compiler = TRUE)
 
 print(text, n = nrow(text))
 #> # A tibble: 11 x 7
-#>    legislator legislature chamber             date       id       speech     sex
-#>    <chr>            <int> <chr>               <date>     <chr>    <chr>    <dbl>
-#>  1 ABDALA              48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR A~     1
-#>  2 ASTI                48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR A~     1
-#>  3 AVIAGA              48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑORA ~     0
-#>  4 BORDABERRY          48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR B~     1
-#>  5 GOÑI                48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR G~     1
-#>  6 LAZO                48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑORA ~     0
-#>  7 MAHIA               48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR M~     1
-#>  8 MERONI              48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR M~     1
-#>  9 PEREYRA             48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑORA ~     0
-#> 10 TOURNE              48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑORA ~     0
-#> 11 VIERA               48 COMISION PERMANENTE 2019-09-17 0?width~ SEÑOR V~     1
+#>    legislator legislature chamber             date       id         speech   sex
+#>    <chr>            <int> <chr>               <date>     <chr>      <chr>  <dbl>
+#>  1 ABDALA              48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  2 ASTI                48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  3 AVIAGA              48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     0
+#>  4 BORDABERRY          48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  5 GOÑI                48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  6 LAZO                48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     0
+#>  7 MAHIA               48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  8 MERONI              48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
+#>  9 PEREYRA             48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     0
+#> 10 TOURNE              48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     0
+#> 11 VIERA               48 COMISION PERMANENTE 2019-09-17 0?width=8~ SEÑOR~     1
 ```
 
 Ahora podemos agregarle la etiqueta partidaria y el nombre completo a
@@ -944,19 +949,19 @@ text <- add_party(text)
 
 print(text, n = nrow(text))
 #> # A tibble: 11 x 12
-#>    legislator legislature chamber  date       id      speech     sex legislator2
-#>    <chr>            <int> <chr>    <date>     <chr>   <chr>    <dbl> <chr>      
-#>  1 ABDALA              48 COMISIO~ 2019-09-17 0?widt~ SEÑOR A~     1 ABDALA, Pa~
-#>  2 ASTI                48 COMISIO~ 2019-09-17 0?widt~ SEÑOR A~     1 ASTI, Alfr~
-#>  3 AVIAGA              48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 AVIAGA, Ca~
-#>  4 BORDABERRY          48 COMISIO~ 2019-09-17 0?widt~ SEÑOR B~     1 BORDABERRY~
-#>  5 GOÑI                48 COMISIO~ 2019-09-17 0?widt~ SEÑOR G~     1 GOÑI ROMER~
-#>  6 LAZO                48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 LAZO, Sand~
-#>  7 MAHIA               48 COMISIO~ 2019-09-17 0?widt~ SEÑOR M~     1 MAHIA, Jos~
-#>  8 MERONI              48 COMISIO~ 2019-09-17 0?widt~ SEÑOR M~     1 <NA>       
-#>  9 PEREYRA             48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 PEREYRA, S~
-#> 10 TOURNE              48 COMISIO~ 2019-09-17 0?widt~ SEÑORA ~     0 TOURNE, Da~
-#> 11 VIERA               48 COMISIO~ 2019-09-17 0?widt~ SEÑOR V~     1 VIERA, Tab~
+#>    legislator legislature chamber      date       id    speech   sex legislator2
+#>    <chr>            <int> <chr>        <date>     <chr> <chr>  <dbl> <chr>      
+#>  1 ABDALA              48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 ABDALA, Pa~
+#>  2 ASTI                48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 ASTI, Alfr~
+#>  3 AVIAGA              48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     0 AVIAGA, Ca~
+#>  4 BORDABERRY          48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 BORDABERRY~
+#>  5 GOÑI                48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 GOÑI ROMER~
+#>  6 LAZO                48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     0 LAZO, Sand~
+#>  7 MAHIA               48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 MAHIA, Jos~
+#>  8 MERONI              48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 <NA>       
+#>  9 PEREYRA             48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     0 PEREYRA, S~
+#> 10 TOURNE              48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     0 TOURNE, Da~
+#> 11 VIERA               48 COMISION PE~ 2019-09-17 0?wi~ SEÑOR~     1 VIERA, Tab~
 #> # ... with 4 more variables: party <chr>, party_acron <chr>, indicator <int>,
 #> #   words <dbl>
 ```
@@ -967,19 +972,19 @@ legisladores:
 ``` r
 text[, c(1,2, 7:ncol(text))]
 #> # A tibble: 11 x 8
-#>    legislator legislature   sex legislator2   party  party_acron indicator words
-#>    <chr>            <int> <dbl> <chr>         <chr>  <chr>           <int> <dbl>
-#>  1 ABDALA              48     1 ABDALA, Pablo Parti~ PN                  1   402
-#>  2 ASTI                48     1 ASTI, Alfredo Frent~ FA                  1    52
-#>  3 AVIAGA              48     0 AVIAGA, Carol Parti~ PN                  1   107
-#>  4 BORDABERRY          48     1 BORDABERRY, ~ Parti~ PC                  1   967
-#>  5 GOÑI                48     1 GOÑI ROMERO,~ Parti~ PN                  2    94
-#>  6 LAZO                48     0 LAZO, Sandra  Frent~ FA                  3   103
-#>  7 MAHIA               48     1 MAHIA, Jose ~ Frent~ FA                  1   122
-#>  8 MERONI              48     1 <NA>          <NA>   <NA>               NA    10
-#>  9 PEREYRA             48     0 PEREYRA, Sus~ Frent~ FA                  1    12
-#> 10 TOURNE              48     0 TOURNE, Daisy Frent~ FA                  1   111
-#> 11 VIERA               48     1 VIERA, Tabare Parti~ PC                  1     6
+#>    legislator legislature   sex legislator2    party party_acron indicator words
+#>    <chr>            <int> <dbl> <chr>          <chr> <chr>           <int> <dbl>
+#>  1 ABDALA              48     1 ABDALA, Pablo  Part~ PN                  1   394
+#>  2 ASTI                48     1 ASTI, Alfredo  Fren~ FA                  1    44
+#>  3 AVIAGA              48     0 AVIAGA, Carol  Part~ PN                  1   107
+#>  4 BORDABERRY          48     1 BORDABERRY, P~ Part~ PC                  1   944
+#>  5 GOÑI                48     1 GOÑI ROMERO, ~ Part~ PN                  2    94
+#>  6 LAZO                48     0 LAZO, Sandra   Fren~ FA                  3   103
+#>  7 MAHIA               48     1 MAHIA, Jose C~ Fren~ FA                  1   122
+#>  8 MERONI              48     1 <NA>           <NA>  <NA>               NA    10
+#>  9 PEREYRA             48     0 PEREYRA, Susa~ Fren~ FA                  1    12
+#> 10 TOURNE              48     0 TOURNE, Daisy  Fren~ FA                  1   111
+#> 11 VIERA               48     1 VIERA, Tabare  Part~ PC                  1     6
 ```
 
 Como se puede observar hay un solo diputado o senador que la función
@@ -1003,12 +1008,12 @@ datos compilada, que cada fila se corresponda con cada una de las
 intervención de un legislador y que el texto no se encuentre agrupado,
 es posible usar la función
 [`speech::speech_uncompiler()`](https://nicolas-schmidt.github.io/speech/reference/speech_uncompiler.html)
-cuyo único argumento *tidy\_speech* se corresponde con el resultado de
-la aplicación de `speech_build(., compiler = TRUE)`.
+cuyo único argumento *tidy_speech* se corresponde con el resultado de la
+aplicación de `speech_build(., compiler = TRUE)`.
 
 ### Ejemplo 4
 
-#### :arrow\_forward: Descarga masiva de sesiones correspondiente a un período de tiempo detarminado: Cámara de Representantes del 20-11-2014 al 20-11-2020
+#### :arrow_forward: Descarga masiva de sesiones correspondiente a un período de tiempo detarminado: Cámara de Representantes del 20-11-2014 al 20-11-2020
 
 Si necesitamos obtener la información sobre las intervenciones
 correspondiente a un rango de fechas determinado, es posible usar la
@@ -1119,8 +1124,8 @@ method = "correlation",margin = "features")%>%
 #> 11       según      luc   0.9986741
 #> 12       marco      luc   0.9983689
 #> 13    profunda      luc   0.9983377
-#> 14   ejecutivo      luc   0.9980894
-#> 15        lado      luc   0.9980516
+#> 14        lado      luc   0.9980516
+#> 15    comisión      luc   0.9980132
 ```
 
 Así también podemos ver con la función
@@ -1139,7 +1144,8 @@ quanteda::kwic(quanteda::tokens(intervenciones$speech,
                                 window = 15)
 ```
 
-<img src="figures/README-unnamed-chunk-27-1.png" width="80%" />
+<div id="htmlwidget-46538fa79206e0fc1ef6" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-46538fa79206e0fc1ef6">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],["text10","text10","text12","text23","text37","text48","text82","text82","text101","text103","text130","text151","text287"],[243,1347,294,117,36,62,589,672,174,139,35,151,16],[246,1350,297,120,39,65,592,675,177,142,38,154,19],["primera inconveniencia que queremos señalar señora presidenta es que se trate este asunto en una","respecto tenemos valoraciones diferentes pero saludo que se dé fuera del marco del proyecto de","antecedente que se crea al limitar un derecho fundamental en medio de una pandemia vía","por qué fundamentación no debieran ser tenidos en cuenta Nosotros estamos en medio de una","Para nosotros este bloque de artículos constituye una de las facetas más negativas de la","de entes autónomos servicios descentralizados y las empresas vinculadas Entendemos que este bloque de la","orden Esto lo dice el economista Alberto Barreix La propuesta contenida en el proyecto de","de lo que es la regla fiscal La regla fiscal propuesta en el proyecto de","a la aprobación de esa norma como a una novedad que incorpora este proyecto de","expresamente la dejamos así para no introducir nada para ninguno de los lados en esta","no es correcto ingresar a modificar normas de prescripción a través de un proyecto de","ese camino pero yo señora presidenta como lo anuncié el de abril cuando ingresó la","SEÑOR PEÑA Señora presidenta creo que tenemos otro elemento para celebrar de este proyecto de"],["ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración"],["Por qué saludamos que se haya modificado el artículo que estuvo presente en el borrador","con tiempos de análisis tan breves y con las pocas horas que nos quedan antes","Hay algunos aspectos jurídicos que para contestarlos me voy a basar en un trabajo de","en este contexto Vaya si vale para el tema de las relaciones laborales Precisamente hoy","Lo interpretamos como una clara marcha atrás en procesos de derechos que se derivan de","no tiene la total consistencia y prolijidad como para relacionar este aspecto con otros regímenes","es de una regla flexible sin castigo por incumplimiento Es fundamental el compromiso político de","se aplica a los organismos incluidos en el presupuesto quinquenal es decir al Gobierno central","que es el planteo y la visualización casi setenta años después de que el legislador","aunque algo sacamos Habilitamos hectáreas desde el al En el primer Gobierno del doctor Vázquez","Hay que reconocer que se dio un debate en comisión y que se retiraron algunas","a este recinto me voy a mantener en lo que dije y de los cuatrocientos","La creación del Instituto Nacional de la Granja constituye una vieja aspiración de los actores"],["ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración","ley de urgente consideración"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>docname<\/th>\n      <th>from<\/th>\n      <th>to<\/th>\n      <th>pre<\/th>\n      <th>keyword<\/th>\n      <th>post<\/th>\n      <th>pattern<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 Por último, con el paquete
 [`syuzhet`](https://CRAN.R-project.org/package=syuzhet) analizo el
@@ -1184,9 +1190,13 @@ En esta sección se deja constancia del uso que distintos usuarios hacen
 o han hecho del paquete `speech`.
 
 -   **La temática de género en el Parlamento uruguayo**:
-    [aquí](https://www.elinagomez.com/blog/2020-09-25-parlamento-genero/#fnref2)
-    -   [Elina Gómez](https://www.elinagomez.com/)
+    [aquí](https://www.elinagomez.com/blog/2020-09-25-parlamento-genero/#fnref2).
+    Por [Elina Gómez](https://www.elinagomez.com/)
 
 ## Aplicación web
 
-:construction: :construction: :construction: :construction:
+En este [**link**](https://bancodedatos-fcs.shinyapps.io/shiny_speech/)
+se puede acceder a la aplicacion web para realizar los procesos básicos
+que se detallan en los ejemplos explorados arriba.
+
+<img src="figures/app.png" style="margin-center:30px;margin-bottom:5px;" width="600" align="center"></a>

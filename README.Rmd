@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: yes
 ---
 
 
@@ -70,11 +71,12 @@ Una vez instalado el paquete debe cargarlo en la sesión de trabajo:
 library(speech)
 ```
 
-Vamos a ver 3 ejemplos que presentan distintos problemas y niveles de complejidad en su procesamiento:
+Vamos a ver 4 ejemplos que presentan distintos problemas y niveles de complejidad en su procesamiento:
 
 * El diario de sesión de la Asamblea General de la reapertura democrática: 15 de febrero de 1985.    
 * Un diario de sesión sobre la creación de los consejos de salarios del 13 de octubre de 1941.    
-* Un diario de sesión reciente de una sesión convencional de la Comisión Permanente del 17 de setiembre de 2019
+* Un diario de sesión reciente de una sesión convencional de la Comisión Permanente del 17 de setiembre de 2019.
+* Descarga masiva de sesiones correspondiente a un período de tiempo detarminado.
 
 
 
@@ -117,7 +119,7 @@ El paquete `speech` tiene una función que permite chequear los nombres de los l
 
 Vamos a chequear los nombres:
 ```{r }
-speech_check(text)
+speech::speech_check(text)
 ```
 La función `speech_check()` devuelve una lista de nombres ordenados por inicial. Esta función permite visualizar los problemas de un modo más amigable y fácil. Lo que se puede apreciar es que hay distintos tipos de errores: en los legisladores que inicial con **F**, con **P** y con **V**.
 
@@ -125,24 +127,24 @@ La función `speech_check()` devuelve una lista de nombres ordenados por inicial
 Ahora vamos a cambiar los nombres que están mal:
 
 ```{r }
-text <- speech_legis_replace(text, old = "FElRREIRA Señ",  new = "FERREIRA")
-text <- speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
-text <- speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
-text <- speech_legis_replace(text, old = "CORDOSO",  new = "CARDOSO")
+text <- speech::speech_legis_replace(text, old = "FElRREIRA Señ",  new = "FERREIRA")
+text <- speech::speech_legis_replace(text, old = "V AILLANT",  new = "VAILLANT")
+text <- speech::speech_legis_replace(text, old = "PAZ AG",  new = "PAZ AGUIRRE")
+text <- speech::speech_legis_replace(text, old = "CORDOSO",  new = "CARDOSO")
 ```
 Con esta función lo que hacemos es modificar la base construida (es decir el objeto `text`) por eso debemos sobrescribirla.
 
 Ahora debemos chequear que los cambios se realizaron de manera correcta:
 
 ```{r}
-speech_check(text)
+speech::speech_check(text)
 ```
 
 Una vez que consideramos que ya no hay más cambios por realizar podemos recompilar el diario de sesión. Tenemos que recompilarlo ya que hemos modificado la compilación inicial.
 
 
 ```{r}
-text2 <- speech_recompiler(tidy_speech = text)
+text2 <- speech::speech_recompiler(tidy_speech = text)
 print(text2, n = nrow(text2))
 
 ```
@@ -168,7 +170,7 @@ print(text)
 Lo primero que vemos es que aparecen errores en nombres, la variable cámara, fecha y legislatura no fueron identificadas. Esto nos da la pauta de que el documento no es de muy buena calidad. Vamos a chequear los nombres de los legisladores previo a compilar:
 
 ```{r}
-speech_check(text)
+speech::speech_check(text)
 ```
 
 Vemos que hay errores de dos tipos. El primero es de presidentes que no han sido eliminados, y el segundo es que muchos nombres de los legisladores están mal escritos. Esto se debe exclusivamente a la mala calidad del OCR que tiene este documento. Sin embargo, como vamos a ver el paquete `text2` proporciona las funciones adecuadas para lidiar con este tipo de problemas. Vamos a comenzar eliminado a los presidentes.
@@ -179,7 +181,7 @@ text <- speech::speech_build(file = "speech_example.pdf",
                                               "PRPJSIDENTE", 
                                               "PRPJSIDENTE", 
                                               "PRENOTENTE"))
-speech_check(text)
+speech::speech_check(text)
 ```
 
 Solucionado este problema ahora pasamos al problema de los nombres de los legisladores que son varios:
@@ -433,14 +435,15 @@ intervenciones %>%
 
 En esta sección se deja constancia del uso que distintos usuarios hacen o han hecho del paquete `speech`.
 
-* **La temática de género en el Parlamento uruguayo**: [aquí](https://www.elinagomez.com/blog/2020-09-25-parlamento-genero/#fnref2)
-  * [Elina Gómez](https://www.elinagomez.com/) 
+* **La temática de género en el Parlamento uruguayo**: [aquí](https://www.elinagomez.com/blog/2020-09-25-parlamento-genero/#fnref2). Por [Elina Gómez](https://www.elinagomez.com/) 
     
 ## Aplicación web
 
 
-:construction: :construction: :construction: :construction:
+En este [**link**](https://bancodedatos-fcs.shinyapps.io/shiny_speech/) se puede acceder a la aplicacion web para realizar los procesos básicos que se detallan en los ejemplos explorados arriba.
 
+
+<img src="figures/app.png" style="margin-center:30px;margin-bottom:5px;" width="600" align="center"></a>
 
 
 
