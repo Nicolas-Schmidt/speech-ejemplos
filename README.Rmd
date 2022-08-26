@@ -1,6 +1,6 @@
 ---
 output: github_document
-always_allow_html: yes
+always_allow_html: false
 ---
 
 
